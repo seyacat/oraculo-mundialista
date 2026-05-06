@@ -5,8 +5,12 @@ import { clerkMiddleware, requireAuth, getAuth } from '@clerk/express'
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const allowedOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
 
-app.use(cors({ origin: 'http://localhost:5173' }))
+app.use(cors({ origin: allowedOrigins }))
 app.use(express.json())
 app.use(clerkMiddleware())
 
