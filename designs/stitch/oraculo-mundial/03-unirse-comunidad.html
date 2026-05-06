@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=Lexend:wght@600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#d8e3fb",
+                    "primary": "#95d3c0",
+                    "surface-dim": "#081425",
+                    "tertiary-fixed": "#dae2fd",
+                    "outline": "#89938f",
+                    "on-tertiary-container": "#afb7d0",
+                    "surface-tint": "#95d3c0",
+                    "on-primary-fixed": "#002019",
+                    "inverse-primary": "#2c6859",
+                    "outline-variant": "#404945",
+                    "surface-container-low": "#111c2d",
+                    "on-error-container": "#ffdad6",
+                    "error": "#ffb4ab",
+                    "on-secondary": "#2c3400",
+                    "error-container": "#93000a",
+                    "tertiary-container": "#40485d",
+                    "on-primary-container": "#87c4b2",
+                    "secondary": "#ffffff",
+                    "on-primary": "#00382d",
+                    "surface-container-lowest": "#040e1f",
+                    "surface-variant": "#2a3548",
+                    "on-secondary-container": "#5c6b00",
+                    "surface-container": "#152031",
+                    "surface-container-highest": "#2a3548",
+                    "surface": "#081425",
+                    "on-surface-variant": "#bfc9c4",
+                    "background": "#081425",
+                    "on-secondary-fixed": "#191e00",
+                    "inverse-on-surface": "#263143",
+                    "on-secondary-fixed-variant": "#414c00",
+                    "surface-container-high": "#1f2a3c",
+                    "secondary-fixed-dim": "#b8d300",
+                    "tertiary": "#bec6e0",
+                    "surface-bright": "#2f3a4c",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "primary-fixed-dim": "#95d3c0",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "secondary-container": "#d2f100",
+                    "primary-container": "#0f5244",
+                    "on-background": "#d8e3fb",
+                    "on-tertiary": "#283044",
+                    "primary-fixed": "#b1efdc",
+                    "on-primary-fixed-variant": "#0c5042",
+                    "secondary-fixed": "#d2f100",
+                    "on-surface": "#d8e3fb",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-error": "#690005"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "20px",
+                    "sm": "12px",
+                    "lg": "40px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "xl": "64px",
+                    "md": "24px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-xl": ["Inter", "sans-serif"],
+                    "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "headline-md": ["Inter", "sans-serif"],
+                    "headline-lg": ["Inter", "sans-serif"],
+                    "label-caps": ["Lexend", "sans-serif"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(21, 32, 49, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(149, 211, 192, 0.1);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 15px rgba(210, 241, 0, 0.3);
+        }
+        .stadium-bar-segment {
+            height: 8px;
+            border-radius: 2px;
+            background: #2a3548;
+            flex: 1;
+            margin-right: 2px;
+        }
+        .stadium-bar-segment.active {
+            background: #d2f100;
+            box-shadow: 0 0 8px rgba(210, 241, 0, 0.6);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm flex justify-between items-center px-margin h-16">
+<div class="font-headline-md text-headline-md font-extrabold text-secondary-container tracking-tight">
+            El Oráculo Mundial
+        </div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<div class="w-8 h-8 rounded-full border-2 border-secondary-container overflow-hidden">
+<img alt="User Profile" data-alt="A close-up portrait of a young man with a friendly expression, set against a dark, technologically themed background with soft neon cyan rim lighting. The style is cinematic and high-fidelity, matching a premium social sports application's visual language. The lighting highlights a glowing status ring around the circular profile frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVJV9u9GS9yrKAXdpITQ8thPNtGKflWajuylsZOdUWEdPlggvtDxaiyDxeYhQLsniXQa7EXuQ5ZpqMpSKwXWXbOrNYmigJ2eoyNVFjlIlqtPeFOxpeoIgANcoaw1QETvYpS0Z_6CRaI1-0w0hhR3IsmUGhxNqAFNZTvdpH94wHMkLUNJgdUGdoI8J-V5vC2nj47Qcv27doOsUcypeFx2Lbke1iIh0undeEWFjjLNgqvmnUwPaJv83ox-UcRMg7bd4UHk5u-Urr31Y"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-margin max-w-2xl mx-auto">
+<!-- Invitation Hero -->
+<section class="mb-lg">
+<div class="relative rounded-xl overflow-hidden glass-panel p-md flex flex-col items-center text-center gap-base border border-primary/20">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary-container to-transparent opacity-50"></div>
+<div class="relative">
+<div class="w-20 h-20 rounded-full border-4 border-secondary-container glow-secondary overflow-hidden mb-sm">
+<img alt="Pancho's Avatar" data-alt="A detailed portrait of a charismatic male soccer fan wearing a stylized sports jersey, laughing and looking into the distance. The lighting is warm and energetic, suggesting a stadium atmosphere at sunset. The image has a vibrant, modern high-contrast aesthetic with deep blues and brilliant highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8ktDRBwMsMp41gKylv2TlsjQhNy8pPaLoWJ0wCNCoh0XSeFkkaqGi5dw7dxkEPCXVk_xKvtKb4eusHMfhSqnrM8JEf_sc3bXKOVio2MS92KHnUcLaao_CZuHOvCy0-2W5eiVy7WywFmZeS_DaUKnLfNWPdf5TbQiCr3mOu9603f9wvDY_XyqjLTJS9gQlx1Td9M0ffuKh6KlGWercTVsU9om2pvzYM2fnOhQzuyAs4RvSB-E1Aw_5p-Gq4OWnw7--MIogfmwjbhI"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary-container text-on-secondary-fixed rounded-full p-1 border-2 border-surface">
+<span class="material-symbols-outlined text-[16px]">psychology</span>
+</div>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-secondary-container">
+                    Pancho te retó a entrar a La Banda del Mundial
+                </h1>
+<p class="text-on-surface-variant text-body-lg">
+                    No dejes a tu compa solo. Únete al equipo y empieza a predecir resultados para ganar gloria.
+                </p>
+</div>
+</section>
+<!-- Social Proof & Progress -->
+<section class="mb-lg">
+<div class="glass-panel rounded-xl p-md border border-outline-variant/30">
+<div class="flex justify-between items-end mb-sm">
+<span class="font-label-caps text-label-caps text-secondary-container">RETO GRUPAL</span>
+<span class="font-headline-md text-headline-md text-primary">18/25</span>
+</div>
+<!-- Stadium Lights Progress Bar -->
+<div class="flex mb-md">
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment active"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+<div class="stadium-bar-segment"></div>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">stars</span>
+<p class="text-on-surface text-body-md">
+<span class="font-bold text-secondary-container">Entran 7 más</span> y desbloquean el primer beneficio: <span class="italic text-primary">X2 en puntos de bienvenida.</span>
+</p>
+</div>
+</div>
+</section>
+<!-- Registration Form -->
+<section class="glass-panel rounded-xl p-md border border-outline-variant/30 shadow-xl">
+<h2 class="font-headline-md text-headline-md mb-md text-on-surface">Crea tu Perfil</h2>
+<form class="space-y-md">
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">NOMBRE VISIBLE</label>
+<input class="w-full bg-surface-container-highest border-outline-variant border rounded-lg p-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:opacity-30" placeholder="Ej: El Oráculo 2024" type="text"/>
+</div>
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">TELÉFONO MÓVIL</label>
+<div class="relative">
+<span class="absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">+52</span>
+<input class="w-full bg-surface-container-highest border-outline-variant border rounded-lg p-md pl-16 text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:opacity-30" placeholder="55 1234 5678" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">CIUDAD</label>
+<select class="w-full bg-surface-container-highest border-outline-variant border rounded-lg p-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+<option>CDMX</option>
+<option>Guadalajara</option>
+<option>Monterrey</option>
+<option>Querétaro</option>
+</select>
+</div>
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant px-1">EQUIPO FAVORITO</label>
+<input class="w-full bg-surface-container-highest border-outline-variant border rounded-lg p-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:opacity-30" placeholder="Ej: México" type="text"/>
+</div>
+</div>
+<div class="pt-md">
+<button class="w-full bg-secondary-container text-on-secondary-fixed font-headline-md py-md rounded-xl glow-secondary active:scale-95 transition-all flex justify-center items-center gap-sm" type="submit">
+<span>Aceptar Reto</span>
+<span class="material-symbols-outlined">sports_soccer</span>
+</button>
+<p class="text-center text-label-caps font-label-caps text-on-surface-variant mt-md opacity-60">
+                        Al unirte aceptas nuestras reglas de juego limpio y comunidad.
+                    </p>
+</div>
+</form>
+</section>
+<!-- Social Validation -->
+<section class="mt-lg">
+<div class="flex flex-col gap-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant text-center">JUGADORES EN ESTA BANDA</span>
+<div class="flex flex-wrap justify-center gap-sm">
+<div class="w-12 h-12 rounded-full border-2 border-primary-container overflow-hidden">
+<img alt="Player 1" data-alt="Close-up avatar of a diverse male player with a slight smile, illuminated by modern stadium lighting effects. The background is a deep navy with subtle cyan glows, reflecting the sports championship theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDi8FV4cUmWEQFFtm7585NirrY-m02NdnV6f8bdNw9RrvXikO-MBvyBBvgOxcsxqttcHJAZvMCM2God0l_Ys0AqMV2kxPYE0cVqN32uLRbWex1LzfBmRId5E0BwOHLhGjRzgBxc2Rw0dt6-sok0EobPsuIah4p2wGgHe25oorYC9o8z-PWQBraX9r2ZsaJKXUlDJrwp8HNWOP4p70uJd59toaKW2AhZIvMPsyGFY5C3KYDfL3yZY9KWkYRtuW-yTYvTQdsAGGZTmHQ"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-primary-container overflow-hidden">
+<img alt="Player 2" data-alt="Portrait of a female sports fan with enthusiastic expression, wearing a jersey. The lighting features high-contrast neon highlights and shadows, creating a dynamic gaming energy. The style is crisp and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPkguoC7pBcPeDTi3QYVMZgjOkXLfAdshfrmHq0hwR66UQ2yUvz7t24jVD_jLWTmqKCfY6_kG8cTsNxOmhzDSGDadGO55gjATuDnER66qTrrVeVjhVFuf0aL-fJEH2QIi4bt0N1NBMEaOQ8Qn4THWBMWC9-GVbWge44l98l5mjgWdjPx7_Qdgfp278CxOcgKzQ-_8LLiwPAQtjc7w8Ph6HAXp5JRl1ZbQTDE6aCQFLi0xn_grQocnoQnlbl6ibI2ORjiEvkCa63ik"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-primary-container overflow-hidden">
+<img alt="Player 3" data-alt="A profile image of a male athlete, shot in a futuristic studio setting with deep charcoal and emerald lighting. The focus is sharp on the face, projecting a competitive and focused persona suitable for a leader in the community." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCachpAt0sw4GPkC9k7NTKh5MtuzlGOD96zf0tmko6T7ZY0NoZyKlLfXFbHMfsuJvytGIkG_o8rPMKEA2X5vlmQiI6NsOBkmGn_NJGhENVhTOXNVMg8YI4aenOnn3MTxxGIe5_HVwL-6_ZKM70ysxFa9aBa2v4vyYX-FdTilsgzo5McCl22hwwXmVVqWcy-F5fLBAP5OdLqOAaawNO72TPPUm56B6ZBcKT6zZFpty6jkVksQfLD7cD0Cde7sA8dI4YIUJ_15obP0jk"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-primary-container overflow-hidden">
+<img alt="Player 4" data-alt="A portrait of a confident young woman, looking directly at the camera with a friendly smile. The background is blurred, showing hints of a futuristic sports stadium environment at night with neon yellow accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0eCJKd9ym2FqdcZlkPWbT6WXVPtRqXW4eNlkeSQtkjfUikOfNYra3kOdaoDlbVX_M8mDhpU_fV4Zt14G-mVy6RhaswOXhAvAxIkC0BIUFVUPFwBGsEa9x5-YwnEeVqrqVSdpRit_9FjvXXfY6IS9GZOoqrTAcXMxNpgqRdUSlVtKXNA-sA5lKlLmvvi91ul4TyC8ktJi3mZfJe0UZhJvqUcskU7L1EToNVa3BalFkMnBbgMmWALv_biOHV5sj4-rOWxUQlHq2K5k"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-primary-container bg-surface-container flex items-center justify-center text-primary font-bold">
+                        +14
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- Background Decor (Aesthetic) -->
+<div class="fixed top-0 right-0 -z-10 w-1/2 h-1/2 bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-1/3 h-1/3 bg-secondary-container/5 blur-[100px] rounded-full"></div>
+</body></html>

@@ -1,0 +1,11 @@
+# 02 — Funcionalidad y Mecánica del Producto
+## 1. Propósito del documento
+Este documento define la funcionalidad, mecánica de juego, experiencia social, lógica viral y modelo de progresión de la plataforma.
+## 2. Concepto general
+La plataforma permite que cualquier usuario cree una comunidad mundialista gratuita, invite jugadores por WhatsApp, compita mediante predicciones deportivas, suba en rankings, use poderes limitados, participe en duelos sociales, evite la Tabla de la Vergüenza y desbloquee beneficios para su comunidad.
+La promesa funcional es: "No solo predices el Mundial. Lo juegas contra tu gente."
+## 3. Principio funcional central
+La unidad principal de crecimiento es la comunidad.
+## 4. Nombre funcional de la mecánica
+# El Oráculo Mundial
+... (rest of the detailed document content)

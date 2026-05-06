@@ -1,0 +1,75 @@
+{
+  "importedAt": "2026-05-05",
+  "project": {
+    "id": "7816957508142821760",
+    "name": "projects/7816957508142821760",
+    "title": "El Oraculo Mundial",
+    "origin": "STITCH",
+    "visibility": "PRIVATE"
+  },
+  "designSystem": {
+    "assetId": "105072ca170a46269c407b0226a31118",
+    "name": "Stadium Social",
+    "colors": {
+      "background": "#081425",
+      "primary": "#95d3c0",
+      "primaryContainer": "#0f5244",
+      "secondaryContainer": "#d2f100",
+      "surfaceContainer": "#152031"
+    },
+    "fonts": {
+      "headline": "Inter",
+      "body": "Plus Jakarta Sans",
+      "label": "Lexend"
+    }
+  },
+  "screens": [
+    {
+      "id": "17fd7ff06aad433fa1e670ecda9669f5",
+      "title": "El Oraculo - Predicciones",
+      "html": "01-predicciones.html",
+      "screenshot": "01-predicciones.png"
+    },
+    {
+      "id": "ecb3ae218b4846068324deb7d791e801",
+      "title": "Invitacion y Progreso Comunitario",
+      "html": "02-invitacion-progreso.html",
+      "screenshot": "02-invitacion-progreso.png"
+    },
+    {
+      "id": "e9ae11b3e3a34e7ba8fb44ea2b74f49d",
+      "title": "Unirse a la Comunidad",
+      "html": "03-unirse-comunidad.html",
+      "screenshot": "03-unirse-comunidad.png"
+    },
+    {
+      "id": "152dd42a7fce41618ea306a66a721e52",
+      "title": "Landing y Creacion de Comunidad",
+      "html": "04-landing-creacion-comunidad.html",
+      "screenshot": "04-landing-creacion-comunidad.png"
+    },
+    {
+      "id": "447ca49578184742a1f05f818aad8c27",
+      "title": "Rankings y Tabla de la Verguenza",
+      "html": "05-rankings-verguenza.html",
+      "screenshot": "05-rankings-verguenza.png"
+    },
+    {
+      "id": "ef9df8d6b13e4520a82d67b3d2c55be0",
+      "title": "El Oraculo - Poderes Estrategicos",
+      "html": "06-poderes-estrategicos.html",
+      "screenshot": "06-poderes-estrategicos.png"
+    },
+    {
+      "id": "9f269ed078a44d7f872600d62f8ccf70",
+      "title": "Tabla de la Verguenza - Detalle Humoristico",
+      "html": "07-tabla-verguenza-detalle.html",
+      "screenshot": "07-tabla-verguenza-detalle.png"
+    },
+    {
+      "id": "9789c910c3fd4741aee951e21a642c71",
+      "title": "PRD - El Oraculo Mundial",
+      "html": "08-prd.txt"
+    }
+  ]
+}
