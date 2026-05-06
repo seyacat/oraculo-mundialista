@@ -45,9 +45,12 @@ VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
 ```
 CLERK_SECRET_KEY=sk_test_...
 PORT=3000
+
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 ```
 
-Ambos archivos deben crearse copiando el `.env.example` correspondiente. Sin estas keys Clerk no funciona.
+Ambos archivos deben crearse copiando el `.env.example` correspondiente. Sin estas keys Clerk y Supabase no funcionan.
 
 ## Arquitectura
 
@@ -65,6 +68,7 @@ El proxy `/api → http://localhost:3000` está configurado en `vite.config.js`,
 ### Backend (`backend/src/`)
 
 - **`src/index.js`** — único punto de entrada. Aplica `clerkMiddleware()` globalmente. Rutas: `GET /api/health` (pública) y `GET /api/me` (protegida con `requireAuth()`).
+- **`src/supabase.js`** — exporta el cliente singleton de Supabase creado con `SUPABASE_SERVICE_ROLE_KEY` (acceso admin, sin RLS). Importar desde aquí en todos los routes.
 - CORS configurado solo para `http://localhost:5173`.
 - Todo en ES Modules (`"type": "module"`).
 
