@@ -1,0 +1,58 @@
+export const demoPowers = [
+  {
+    id: 'doble-fe',
+    code: 'DF',
+    name: 'Doble Fe',
+    status: 'disponible',
+    usesAvailable: 2,
+    description: 'Duplica la gloria simbolica si aciertas el marcador de un partido clave.',
+    bestMoment: 'Usalo cuando tu comunidad dude y tu estes convencido.',
+    unlockHint: 'Disponible por participar en la jornada.',
+  },
+  {
+    id: 'ultima-palabra',
+    code: 'UP',
+    name: 'Ultima Palabra',
+    status: 'bloqueado',
+    usesAvailable: 0,
+    description: 'Permite ajustar una prediccion antes del cierre si cambiaste de corazon futbolero.',
+    bestMoment: 'Ideal para partidos con noticias de ultimo minuto.',
+    unlockHint: 'Invita 3 jugadores para desbloquearlo.',
+  },
+  {
+    id: 'anti-mufa',
+    code: 'AM',
+    name: 'Anti-Mufa',
+    status: 'disponible',
+    usesAvailable: 1,
+    description: 'Protege tu reputacion cuando un favorito decide sufrir mas de la cuenta.',
+    bestMoment: 'Usalo en partidos donde todos estan demasiado confiados.',
+    unlockHint: 'Disponible por racha de participacion.',
+  },
+  {
+    id: 'batacazo',
+    code: 'BT',
+    name: 'Batacazo',
+    status: 'usado',
+    usesAvailable: 0,
+    description: 'Celebra una sorpresa del partido y conviertela en momento compartible.',
+    bestMoment: 'Cuando ves venir lo que nadie en el grupo quiere creer.',
+    unlockHint: 'Se recarga con aciertos dificiles.',
+  },
+  {
+    id: 'revancha',
+    code: 'RV',
+    name: 'Revancha',
+    status: 'bloqueado',
+    usesAvailable: 0,
+    description: 'Activa una mini mision para salir de la Tabla de la Verguenza.',
+    bestMoment: 'Despues de un marcador doloroso.',
+    unlockHint: 'Desbloquea al completar 25 jugadores en la comunidad.',
+  },
+]
+
+export const emptyPowersState = {
+  title: 'Todavia no hay poderes desbloqueados',
+  description: 'Invita a tu gente y participa en la jornada para activar poderes del Oraculo.',
+  ctaLabel: 'Invitar para desbloquear',
+}
