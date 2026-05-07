@@ -1,426 +1,140 @@
 <template>
-  <main class="home app-shell">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Quiniela social del Mundial</p>
-        <h1>El Oráculo Mundial</h1>
-        <p class="subtitle">
-          No solo predices el Mundial. Lo juegas contra tu gente con poderes,
-          rankings y una tabla de la vergüenza que nadie quiere liderar.
-        </p>
+  <main class="home-view">
+    <MarketingHero />
 
-        <div class="hero-actions">
-          <RouterLink class="primary-button" to="/dashboard">
-            <span class="icon-dot">GO</span>
-            Entrar al estadio
-          </RouterLink>
-          <a class="secondary-button" href="#crear-comunidad">
-            Ver comunidad
-          </a>
-        </div>
+    <HowItWorks :steps="steps" />
 
-        <div class="stats-row" aria-label="Resumen del juego">
-          <div>
-            <strong>32</strong>
-            <span>selecciones</span>
-          </div>
-          <div>
-            <strong>3</strong>
-            <span>poderes</span>
-          </div>
-          <div>
-            <strong>1</strong>
-            <span>oráculo</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="phone-preview" aria-label="Vista previa de predicciones">
-        <div class="preview-top">
-          <span class="avatar-ring">OM</span>
-          <span>Predicciones</span>
-          <span class="live-pill">VIVO</span>
-        </div>
-        <div class="match-card">
-          <span class="eyebrow">Grupo A</span>
-          <div class="scoreline">
-            <span>ECU</span>
-            <input aria-label="Goles de Ecuador en la vista previa" value="2" readonly />
-            <b>VS</b>
-            <input aria-label="Goles del rival en la vista previa" value="1" readonly />
-            <span>QAT</span>
-          </div>
-          <div class="light-track" aria-hidden="true">
-            <i class="active"></i><i class="active"></i><i class="active"></i><i></i>
-          </div>
-        </div>
-        <div class="power-grid" aria-label="Poderes destacados">
-          <div><span>DF</span><b>Doble fe</b></div>
-          <div><span>AM</span><b>Anti-mufa</b></div>
-          <div><span>BT</span><b>Batacazo</b></div>
-        </div>
-      </div>
+    <section class="section-grid">
+      <CommunityProgressCard :community="community" />
+      <article class="feature-card glass-card">
+        <p class="eyebrow">Predicciones</p>
+        <h2>Marca el resultado antes del cierre.</h2>
+        <p>Partidos claros, estados visibles y poderes opcionales para jugar con estrategia.</p>
+        <RouterLink class="secondary-button" to="/p/la-banda-del-mundial/predicciones">Ver predicciones</RouterLink>
+      </article>
     </section>
 
-    <section id="crear-comunidad" class="community-panel glass-card">
-      <div>
-        <p class="eyebrow">Crea tu comunidad</p>
-        <h2>Reta a familia, amigos o toda la oficina.</h2>
-      </div>
-      <div class="community-options">
-        <button type="button">10 jugadores</button>
-        <button type="button" class="selected">25 jugadores</button>
-        <button type="button">50 jugadores</button>
-      </div>
+    <section class="feature-grid">
+      <article class="feature-card glass-card">
+        <p class="eyebrow">Ranking</p>
+        <h2>Gloria para quien acierta.</h2>
+        <p>Top 3, posición personal y momentos para presumir por WhatsApp.</p>
+      </article>
+      <article class="feature-card glass-card">
+        <p class="eyebrow">Vergüenza</p>
+        <h2>Humor sano para la jornada dura.</h2>
+        <p>Recibos de realidad, revancha y excusas amistosas para el grupo.</p>
+      </article>
+      <article class="feature-card glass-card">
+        <p class="eyebrow">Poderes</p>
+        <h2>Recursos para jugar con picante.</h2>
+        <p>Doble Fe, Anti-Mufa, Batacazo y Revancha con desbloqueos claros.</p>
+      </article>
     </section>
 
-    <section v-if="!isSignedIn" class="auth-panel glass-card">
-        <div class="auth-copy">
-          <p class="eyebrow">Acceso</p>
-          <h2>Entra y arma tu predicción.</h2>
-        </div>
-        <SignIn :afterSignInUrl="'/dashboard'" />
-    </section>
+    <UpgradePrompt
+      eyebrow="Beneficios"
+      title="Llena tu comunidad y desbloquea premios promocionales."
+      description="El progreso visible convierte cada invitación en un paso hacia más gloria para la hinchada."
+      cta-label="Crear mi comunidad gratis"
+    />
 
-    <section v-else class="signed-panel glass-card">
-        <p class="eyebrow">Sesión activa</p>
-        <RouterLink class="primary-button" to="/dashboard">Ir al dashboard</RouterLink>
+    <section class="final-cta">
+      <RouterLink class="primary-button" to="/crear">Crear mi comunidad gratis</RouterLink>
+      <RouterLink class="secondary-button" to="/p/la-banda-del-mundial/unirse">Unirme a una comunidad</RouterLink>
     </section>
   </main>
 </template>
 
 <script setup>
-import { SignIn, useAuth } from '@clerk/vue'
+import MarketingHero from '../components/marketing/MarketingHero.vue'
+import HowItWorks from '../components/marketing/HowItWorks.vue'
+import CommunityProgressCard from '../components/community/CommunityProgressCard.vue'
+import UpgradePrompt from '../components/community/UpgradePrompt.vue'
+import { useDemoCommunity } from '../composables/useDemoCommunity'
 
-const { isSignedIn } = useAuth()
+const { community } = useDemoCommunity()
+
+const steps = [
+  {
+    number: '1',
+    title: 'Crea tu comunidad',
+    description: 'Ponle nombre a la hinchada y define cuántos jugadores quieres retar.',
+  },
+  {
+    number: '2',
+    title: 'Invita por WhatsApp',
+    description: 'Comparte el reto y mira cómo sube el progreso hacia el próximo beneficio.',
+  },
+  {
+    number: '3',
+    title: 'Predice y compite',
+    description: 'Guarda marcadores, usa poderes y pelea rankings de gloria y vergüenza.',
+  },
+]
 </script>
 
 <style scoped>
-.home {
-  padding: 20px;
-}
-
-.hero {
+.home-view {
   width: min(1120px, 100%);
-  min-height: min(760px, calc(100dvh - 40px));
   margin: 0 auto;
+  padding: 16px 16px 56px;
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
-  gap: clamp(2rem, 6vw, 5rem);
-  align-items: center;
-  padding: clamp(2rem, 6vw, 4rem) 0;
+  gap: 28px;
 }
 
-.hero-copy {
-  max-width: 640px;
-}
-
-h1 {
-  margin-top: 0.75rem;
-  max-width: 620px;
-  font-size: clamp(3rem, 9vw, 6.6rem);
-  font-weight: 900;
-  letter-spacing: 0;
-}
-
-.subtitle {
-  max-width: 620px;
-  margin: 1.25rem 0 0;
-  color: var(--text-muted);
-  font-size: clamp(1rem, 2vw, 1.18rem);
-  line-height: 1.6;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 2rem;
-}
-
-.hero-actions a {
-  padding: 0.9rem 1.15rem;
-}
-
-.stats-row {
+.section-grid,
+.feature-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  max-width: 520px;
-  margin-top: 2rem;
+  gap: 14px;
 }
 
-.stats-row div {
-  border: 1px solid rgba(149, 211, 192, 0.14);
-  border-radius: var(--radius-md);
-  padding: 1rem;
-  background: rgba(17, 28, 45, 0.62);
-}
-
-.stats-row strong,
-.stats-row span {
-  display: block;
-}
-
-.stats-row strong {
-  color: var(--energy);
-  font: 900 1.8rem/1 Inter, sans-serif;
-}
-
-.stats-row span {
-  margin-top: 0.35rem;
-  color: var(--text-muted);
-  font-size: 0.82rem;
-}
-
-.phone-preview {
-  position: relative;
-  width: min(390px, 100%);
-  justify-self: center;
-  border: 1px solid rgba(149, 211, 192, 0.22);
-  border-radius: 32px;
-  padding: 1rem;
-  background:
-    linear-gradient(180deg, rgba(21, 32, 49, 0.88), rgba(4, 14, 31, 0.96)),
-    radial-gradient(circle at top right, rgba(210, 241, 0, 0.2), transparent 15rem);
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.36);
-}
-
-.phone-preview::before {
-  content: "";
-  position: absolute;
-  inset: -1.25rem;
-  z-index: -1;
-  border-radius: 40px;
-  background: rgba(210, 241, 0, 0.08);
-  filter: blur(32px);
-}
-
-.preview-top,
-.scoreline,
-.power-grid {
-  display: flex;
-  align-items: center;
-}
-
-.preview-top {
-  justify-content: space-between;
-  min-height: 48px;
-  font-family: Inter, sans-serif;
-  font-weight: 800;
-}
-
-.avatar-ring {
-  width: 42px;
-  height: 42px;
-  border: 2px solid var(--energy);
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  color: var(--energy);
-  font-size: 0.75rem;
-}
-
-.live-pill {
-  border-radius: 999px;
-  background: var(--energy);
-  color: var(--energy-text);
-  padding: 0.45rem 0.7rem;
-  font-size: 0.7rem;
-}
-
-.match-card {
-  margin-top: 1rem;
-  border: 1px solid rgba(149, 211, 192, 0.15);
+.feature-card {
   border-radius: 24px;
-  padding: 1.25rem;
-  background: rgba(21, 32, 49, 0.74);
+  padding: 18px;
+  display: grid;
+  gap: 12px;
 }
 
-.scoreline {
-  justify-content: space-between;
-  gap: 0.7rem;
-  margin-top: 1rem;
-}
-
-.scoreline span {
-  color: var(--primary);
-  font-family: Inter, sans-serif;
+.feature-card h2 {
+  font-size: clamp(1.35rem, 5vw, 2rem);
   font-weight: 900;
 }
 
-.scoreline input {
-  width: 54px;
-  height: 54px;
-  border: 2px solid rgba(137, 147, 143, 0.35);
-  border-radius: 16px;
-  background: var(--surface-highest);
-  color: var(--primary);
-  text-align: center;
-  font: 900 1.6rem/1 Inter, sans-serif;
+.feature-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
 }
 
-.scoreline b {
-  color: rgba(216, 227, 251, 0.35);
+.feature-card a {
+  padding: 0 16px;
 }
 
-.light-track {
-  display: flex;
-  gap: 4px;
-  margin-top: 1.25rem;
-}
-
-.light-track i {
-  height: 4px;
-  flex: 1;
-  border-radius: 999px;
-  background: rgba(137, 147, 143, 0.28);
-}
-
-.light-track .active {
-  background: var(--energy);
-  box-shadow: 0 0 8px var(--energy);
-}
-
-.power-grid {
+.final-cta {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  margin-top: 1rem;
+  gap: 12px;
 }
 
-.power-grid div {
-  min-height: 92px;
-  border: 1px solid rgba(149, 211, 192, 0.13);
-  border-radius: 16px;
-  padding: 0.85rem 0.5rem;
-  background: rgba(21, 32, 49, 0.58);
-  text-align: center;
+.final-cta a {
+  padding: 0 18px;
 }
 
-.power-grid span,
-.power-grid b {
-  display: block;
-}
-
-.power-grid span {
-  width: 34px;
-  height: 34px;
-  margin: 0 auto 0.7rem;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: rgba(210, 241, 0, 0.12);
-  color: var(--energy);
-  font-size: 0.72rem;
-  font-weight: 900;
-}
-
-.power-grid b {
-  font-size: 0.72rem;
-  line-height: 1.2;
-}
-
-.community-panel,
-.auth-panel,
-.signed-panel {
-  width: min(960px, calc(100% - 40px));
-  margin: 0 auto 1rem;
-  border-radius: var(--radius-xl);
-  padding: clamp(1.25rem, 4vw, 2rem);
-}
-
-.community-panel {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 1rem;
-  align-items: center;
-}
-
-.community-panel h2,
-.auth-panel h2 {
-  margin-top: 0.45rem;
-  font-size: clamp(1.4rem, 4vw, 2rem);
-}
-
-.community-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: flex-end;
-}
-
-.community-options button {
-  min-height: 48px;
-  border: 1px solid rgba(149, 211, 192, 0.18);
-  border-radius: var(--radius-md);
-  background: rgba(17, 28, 45, 0.75);
-  color: var(--text);
-  cursor: pointer;
-  padding: 0 1rem;
-  font-weight: 800;
-}
-
-.community-options .selected {
-  border-color: var(--energy);
-  background: var(--energy);
-  color: var(--energy-text);
-}
-
-.auth-panel {
-  display: grid;
-  grid-template-columns: minmax(220px, 0.8fr) minmax(280px, 1fr);
-  gap: 1.5rem;
-  align-items: start;
-}
-
-.signed-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-@media (max-width: 860px) {
-  .hero,
-  .community-panel,
-  .auth-panel {
-    grid-template-columns: 1fr;
+@media (min-width: 760px) {
+  .home-view {
+    padding: 24px 24px 72px;
   }
 
-  .hero {
-    min-height: 0;
+  .section-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
   }
 
-  .community-options {
-    justify-content: flex-start;
-  }
-}
-
-@media (max-width: 560px) {
-  .home {
-    padding: 16px;
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .hero-actions,
-  .signed-panel {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .hero-actions a,
-  .signed-panel a {
-    width: 100%;
-  }
-
-  .stats-row {
-    grid-template-columns: 1fr;
-  }
-
-  .community-panel,
-  .auth-panel,
-  .signed-panel {
-    width: 100%;
+  .final-cta {
+    grid-template-columns: repeat(2, max-content);
   }
 }
 </style>

@@ -64,6 +64,7 @@ defineProps({
   align-items: end;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 h2 {
@@ -132,5 +133,23 @@ b {
 .empty-state h3 {
   font-size: 1.1rem;
   font-weight: 900;
+}
+
+@media (max-width: 440px) {
+  .heading {
+    display: grid;
+  }
+
+  .heading :deep(.whatsapp-button) {
+    width: 100%;
+  }
+
+  li {
+    grid-template-columns: auto 1fr;
+  }
+
+  li b {
+    grid-column: 2;
+  }
 }
 </style>

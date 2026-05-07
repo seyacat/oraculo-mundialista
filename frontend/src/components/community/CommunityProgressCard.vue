@@ -15,6 +15,7 @@
     <p class="benefit">{{ community.nextBenefit?.description }}</p>
 
     <a :href="whatsAppUrl" target="_blank" rel="noopener" class="primary-button">
+      <span aria-hidden="true">WA</span>
       {{ ctaLabel }}
     </a>
   </section>
@@ -100,5 +101,19 @@ h2 {
   margin: 0;
   color: var(--text-muted);
   line-height: 1.55;
+}
+
+a.primary-button {
+  min-height: 56px;
+}
+
+a.primary-button span {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(25, 30, 0, 0.14);
+  font-size: 0.72rem;
 }
 </style>

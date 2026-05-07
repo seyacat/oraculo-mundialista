@@ -24,18 +24,30 @@
 
     <div class="card-actions">
       <span>{{ match.kickoffLabel }} · {{ match.closesInLabel }}</span>
-      <button type="button" class="primary-button">{{ match.prediction?.saved ? 'Predicción guardada' : 'Guardar predicción' }}</button>
+      <button type="button" class="primary-button" @click="$emit('save')">{{ buttonLabel }}</button>
     </div>
+
+    <p v-if="savedLabel" class="saved-feedback" role="status">{{ savedLabel }}</p>
   </article>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   match: {
     type: Object,
     required: true,
   },
+  savedLabel: {
+    type: String,
+    default: '',
+  },
 })
+
+defineEmits(['save'])
+
+const buttonLabel = computed(() => props.savedLabel || (props.match.prediction?.saved ? 'Predicción guardada' : 'Guardar predicción'))
 </script>
 
 <style scoped>
@@ -55,6 +67,7 @@ defineProps({
 
 .match-meta {
   align-items: start;
+  flex-wrap: wrap;
 }
 
 h3 {
@@ -134,5 +147,25 @@ input {
 
 .card-actions button {
   padding: 0 16px;
+}
+
+.saved-feedback {
+  margin: 0;
+  border: 1px solid rgba(210, 241, 0, 0.28);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(210, 241, 0, 0.1);
+  color: var(--energy);
+  font-weight: 900;
+}
+
+@media (max-width: 420px) {
+  .status {
+    width: max-content;
+  }
+
+  .card-actions button {
+    width: 100%;
+  }
 }
 </style>

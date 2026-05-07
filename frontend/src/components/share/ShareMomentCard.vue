@@ -12,6 +12,7 @@
       :label="moment.ctaLabel"
       :title="moment.title"
       :text="moment.message"
+      class="moment-share"
     />
   </article>
 </template>
@@ -57,5 +58,9 @@ pre {
   color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.5;
+}
+
+.moment-share {
+  min-height: 56px;
 }
 </style>
