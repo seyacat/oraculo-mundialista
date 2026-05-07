@@ -1,6 +1,6 @@
 <template>
   <AppShell eyebrow="Ranking" title="La gloria se mueve" :back-to="`/p/${slug}`">
-    <LeaderboardCard :entries="rankings.sports">
+    <LeaderboardCard v-if="sportsRanking.length" :entries="sportsRanking">
       <template #action>
         <WhatsAppShareButton
           class="compact-share"
@@ -12,7 +12,7 @@
       </template>
     </LeaderboardCard>
 
-    <article class="empty-note glass-card">
+    <article v-else class="empty-note glass-card">
       <p class="eyebrow">Si nadie predice todavía</p>
       <h2>{{ emptyStates.ranking.title }}</h2>
       <p>{{ emptyStates.ranking.description }}</p>
@@ -42,6 +42,7 @@ const route = useRoute()
 const slug = computed(() => route.params.slug || 'la-banda-del-mundial')
 const { community, rankings, emptyStates, getShareMoment } = useDemoCommunity(slug.value)
 
+const sportsRanking = computed(() => rankings.value.sports || [])
 const shareText = computed(() => `Voy #${rankings.value.currentUserPosition.position} en ${community.value.name}. Todavia estas a tiempo de alcanzarme:`)
 
 const navItems = computed(() => [

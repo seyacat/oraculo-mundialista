@@ -35,7 +35,7 @@ defineProps({
 <style scoped>
 .how-it-works {
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .section-heading {
@@ -44,7 +44,8 @@ defineProps({
 }
 
 h2 {
-  font-size: clamp(1.55rem, 5vw, 2.5rem);
+  max-width: 620px;
+  font-size: clamp(1.45rem, 5vw, 2.25rem);
   font-weight: 900;
 }
 
@@ -54,10 +55,10 @@ h2 {
 }
 
 .step-card {
-  border-radius: 20px;
-  padding: 18px;
+  border-radius: 18px;
+  padding: 16px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .step-card span {

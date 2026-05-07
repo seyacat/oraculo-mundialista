@@ -3,7 +3,7 @@
     <CommunityHeader :community="community" />
 
     <CommunityProgressCard :community="community" />
-    <article class="empty-note glass-card">
+    <article v-if="community.activePlayers < 3" class="empty-note glass-card">
       <p class="eyebrow">Comunidad en crecimiento</p>
       <h2>{{ emptyStates.community.title }}</h2>
       <p>{{ emptyStates.community.description }}</p>

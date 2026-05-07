@@ -14,7 +14,7 @@
 
     <p class="benefit">{{ community.nextBenefit?.description }}</p>
 
-    <a :href="whatsAppUrl" target="_blank" rel="noopener" class="primary-button">
+    <a v-if="showCta" :href="whatsAppUrl" target="_blank" rel="noopener" class="primary-button">
       <span aria-hidden="true">WA</span>
       {{ ctaLabel }}
     </a>
@@ -41,6 +41,10 @@ const props = defineProps({
   message: {
     type: String,
     default: '',
+  },
+  showCta: {
+    type: Boolean,
+    default: true,
   },
 })
 

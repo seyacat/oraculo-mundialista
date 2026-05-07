@@ -4,9 +4,12 @@
       <p class="eyebrow">Reto recibido</p>
       <h2>Pancho te retó a entrar a {{ community.name }}.</h2>
       <p>Ya son {{ community.activePlayers }}/{{ community.playerGoal }} jugadores. Entran {{ community.nextBenefit?.remainingPlayers }} más y desbloquean el primer beneficio.</p>
-      <CommunityProgressCard :community="community" cta-label="Invitar también" />
+
+      <button type="button" class="primary-button accept-button" @click="acceptChallenge">Aceptar reto</button>
+
+      <CommunityProgressCard :community="community" :show-cta="false" />
+
       <div class="join-actions">
-        <button type="button" class="primary-button" @click="acceptChallenge">Aceptar reto</button>
         <WhatsAppShareButton
           label="Compartir comunidad"
           title="Invitación mundialista"
@@ -54,13 +57,21 @@ p:not(.eyebrow) {
   line-height: 1.6;
 }
 
-button {
+.accept-button {
   padding: 0 18px;
+  min-height: 58px;
+  font-size: 1.05rem;
 }
 
 .join-actions {
   display: grid;
   gap: 12px;
+}
+
+.join-actions :deep(.whatsapp-button) {
+  background: rgba(37, 211, 102, 0.16);
+  border: 1px solid rgba(37, 211, 102, 0.45);
+  color: #a9f7c8;
 }
 
 @media (min-width: 680px) {

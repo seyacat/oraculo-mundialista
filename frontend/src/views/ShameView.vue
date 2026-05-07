@@ -1,12 +1,22 @@
 <template>
   <AppShell eyebrow="Vergüenza" title="Recibos con cariño" :back-to="`/p/${slug}`">
-    <ShameTableCard :entries="shameEntries" />
-    <article class="empty-note glass-card">
+    <section class="whatsapp-hero glass-card">
+      <p class="eyebrow">Recibo de realidad</p>
+      <h2>La risa sana viaja por WhatsApp.</h2>
+      <p>Comparte el recibo con cariño y deja abierta la revancha de la próxima fecha.</p>
+      <WhatsAppShareButton
+        label="Enviar recibo por WhatsApp"
+        title="Recibo de Realidad"
+        :text="getShareMoment('recibo-realidad').message"
+      />
+    </section>
+
+    <ShameTableCard v-if="shameEntries.length" :entries="shameEntries" />
+    <article v-else class="empty-note glass-card">
       <p class="eyebrow">Cuando nadie caiga</p>
       <h2>{{ emptyStates.shame.title }}</h2>
       <p>{{ emptyStates.shame.description }}</p>
     </article>
-    <ShareMomentCard :moment="getShareMoment('recibo-realidad')" />
 
     <section class="revancha-card glass-card">
       <p class="eyebrow">Revancha</p>
@@ -31,7 +41,6 @@ import { useRoute } from 'vue-router'
 import AppShell from '../components/layout/AppShell.vue'
 import BottomNav from '../components/layout/BottomNav.vue'
 import ShameTableCard from '../components/shame/ShameTableCard.vue'
-import ShareMomentCard from '../components/share/ShareMomentCard.vue'
 import WhatsAppShareButton from '../components/share/WhatsAppShareButton.vue'
 import { useDemoCommunity } from '../composables/useDemoCommunity'
 
@@ -49,7 +58,8 @@ const navItems = computed(() => [
 </script>
 
 <style scoped>
-.revancha-card {
+.revancha-card,
+.whatsapp-hero {
   border-radius: 24px;
   padding: 18px;
   display: grid;

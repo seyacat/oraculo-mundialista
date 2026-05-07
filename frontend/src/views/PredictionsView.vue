@@ -1,6 +1,6 @@
 <template>
   <AppShell eyebrow="Predicciones" title="Marca antes del cierre" :back-to="`/p/${slug}`">
-    <section class="prediction-list">
+    <section v-if="matches.length" class="prediction-list">
       <PredictionCard
         v-for="match in matches"
         :key="match.id"
@@ -10,7 +10,7 @@
       />
     </section>
 
-    <article class="empty-note glass-card">
+    <article v-else class="empty-note glass-card">
       <p class="eyebrow">Cuando no haya partidos abiertos</p>
       <h2>{{ emptyStates.predictions.title }}</h2>
       <p>{{ emptyStates.predictions.description }}</p>

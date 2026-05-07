@@ -4,6 +4,8 @@
       <div class="form-intro">
         <p class="eyebrow">Pregunta principal</p>
         <h2>¿Cuántos jugadores quieres retar?</h2>
+        <p>Estás creando {{ form.communityName }} con meta de {{ form.playerGoal }} jugadores.</p>
+        <button type="submit" class="primary-button top-submit">Crear mi comunidad gratis</button>
       </div>
 
       <div class="goal-grid">
@@ -110,6 +112,22 @@ function createCommunity() {
   font-weight: 900;
 }
 
+.form-intro {
+  display: grid;
+  gap: 12px;
+}
+
+.form-intro p:not(.eyebrow) {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.top-submit {
+  width: 100%;
+  padding: 0 18px;
+}
+
 .goal-grid,
 .field-grid {
   display: grid;
@@ -168,18 +186,19 @@ select {
 .check-row {
   grid-template-columns: auto 1fr;
   align-items: center;
-  min-height: 48px;
+  min-height: 56px;
   border: 1px solid rgba(149, 211, 192, 0.12);
   border-radius: 14px;
-  padding: 10px 12px;
+  padding: 12px 14px;
   background: rgba(17, 28, 45, 0.48);
   cursor: pointer;
+  line-height: 1.4;
 }
 
 .check-row input {
   min-height: auto;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
 
 button[type="submit"] {
