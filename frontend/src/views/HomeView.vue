@@ -30,10 +30,10 @@
             </svg>
             Ingresar / Registrarme
           </RouterLink>
-          <a class="home-button secondary" href="#inside">Ver como funciona</a>
+          
         </div>
 
-        <p class="hero-microcopy">Primero inicia sesion para guardar comunidades, predicciones y rankings.</p>
+        <p class="hero-microcopy">Inicia Sesion y accede TOTALMENTE GRATIS.</p>
       </section>
 
       <section class="secure-card glass-panel" id="acceso-seguro">
@@ -69,7 +69,7 @@
               <div class="progress-track" aria-label="18 de 25 jugadores">
                 <i></i>
               </div>
-              <p class="unlock-copy">Faltan 7 para desbloquear premio promocional</p>
+              <p class="unlock-copy">Faltan 7 para desbloquear un premio de la comunidad</p>
             </div>
           </div>
 
@@ -661,6 +661,46 @@ const insideFeatures = [
     margin: 0 auto;
   }
 
+  .preview-label {
+    margin: 0 auto;
+  }
+
+  .preview-copy {
+    text-align: center;
+  }
+
+  .preview-grid {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .preview-main {
+    grid-template-columns: 78px 1fr;
+    justify-self: center;
+  }
+
+  .preview-badge {
+    width: 76px;
+  }
+
+  .preview-strip {
+    justify-items: center;
+    text-align: center;
+    grid-template-columns: 1fr;
+  }
+
+  .inside-section h2 {
+    text-align: center;
+  }
+
+  .inside-grid {
+    justify-items: center;
+  }
+
+  .inside-card {
+    text-align: center;
+  }
+
   .final-banner {
     justify-items: center;
     text-align: center;
@@ -682,14 +722,6 @@ const insideFeatures = [
 
   .hero-section h1 {
     max-width: 12ch;
-  }
-
-  .preview-main {
-    grid-template-columns: 78px 1fr;
-  }
-
-  .preview-badge {
-    width: 76px;
   }
 }
 </style>
