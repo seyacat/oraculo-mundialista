@@ -1,0 +1,199 @@
+# STACK_REPORT — Oráculo Mundialista
+
+> Generated: 2026-05-13 · Branch: task-14267665-explore-the-oraculomundialista-repo-at-m
+
+---
+
+## 1. Repository Layout
+
+```
+OraculoMundialista/
+├── frontend/          # Vue 3 SPA (Vite, port 5173)
+├── backend/           # Node.js Express API (port 3000)
+├── docs/              # Design & functional specs (Markdown)
+├── .claude/           # Claude Code config & plans
+├── CLAUDE.md          # AI coding instructions
+├── CODEX_PROMPTS.md   # Additional AI context
+└── Orchestrator.json  # Task orchestration config
+```
+
+---
+
+## 2. Frontend
+
+| Concern | Choice | Notes |
+|---------|--------|-------|
+| **Framework** | **Vue 3.5** (`vue@^3.5.32`) | Composition API / `<script setup>` throughout |
+| **Build tool** | **Vite 8** (`vite@^8.0.10`) | `@vitejs/plugin-vue@^6.0.6` |
+| **Language** | **JavaScript** (ES Modules) | No TypeScript; `"type": "module"` |
+| **Package manager** | **npm** (`package-lock.json` present) | Separate `node_modules` per workspace |
+| **PWA** | `vite-plugin-pwa@^1.3.0` | `registerType: 'autoUpdate'`, manifest in `vite.config.js` |
+| **Routing** | **Vue Router 5** (`vue-router@^5.0.6`) | `createWebHistory`, auth guard via `useAuth()` |
+| **Auth** | **Clerk** (`@clerk/vue@^2.2.0`) | `clerkPlugin`, `<SignIn>`, `<SignedIn/Out>`, `<UserButton>`, `useAuth()` |
+| **State management** | **None** (no Pinia / Vuex) | Local `ref`/`reactive` in each component; a `useDemoCommunity` composable for demo data |
+| **Drag-and-drop** | **vuedraggable@^4.1.0** | Already installed & used in `PredictionBoard.vue` |
+| **Styling** | **Plain CSS** (no Tailwind / CSS Modules / styled-components) | Global design tokens via CSS custom properties in `style.css`; per-component `<style scoped>` |
+| **HTTP client** | Native `fetch` | Thin wrapper in `src/lib/api.js`; proxy `/api → localhost:3000` in `vite.config.js` |
+
+### Build scripts (`frontend/package.json`)
+
+```json
+"dev":     "vite"
+"build":   "vite build"
+"preview": "vite preview"
+```
+
+---
+
+## 3. Backend
+
+| Concern | Choice | Notes |
+|---------|--------|-------|
+| **Runtime** | **Node.js** (`"type": "module"`) | ES Modules only |
+| **Framework** | **Express 5** (`express@^5.2.1`) | Includes explicit 4-arg error handler required by Express 5 |
+| **Auth** | **Clerk** (`@clerk/express@^2.1.13`) | `clerkMiddleware()` global + `getAuth(req)` per route |
+| **Database client** | **Supabase** (`@supabase/supabase-js@^2.105.3`) | Singleton in `src/supabase.js`, uses `SUPABASE_SERVICE_ROLE_KEY` (admin / no RLS) |
+| **CORS** | `cors@^2.8.6` | Allowed origins from `CORS_ORIGINS` env var; default `http://localhost:5173` |
+| **Env vars** | `dotenv@^17.4.2` | `.env` file; `.env.example` committed |
+| **Package manager** | **npm** | |
+
+### Build scripts (`backend/package.json`)
+
+```json
+"dev":   "node --watch src/index.js"
+"start": "node src/index.js"
+```
+
+---
+
+## 4. Existing Components & Views
+
+### Views (`frontend/src/views/`)
+
+| File | Route | Auth? |
+|------|-------|-------|
+| `HomeView.vue` | `/` | No |
+| `SsoCallbackView.vue` | `/sso-callback` | No |
+| `CreateCommunityView.vue` | `/crear` | ✅ |
+| `CommunityView.vue` | `/p/:slug` | ✅ |
+| `JoinCommunityView.vue` | `/p/:slug/unirse` | No |
+| `PredictionsView.vue` | `/p/:slug/predicciones` | ✅ |
+| `RankingView.vue` | `/p/:slug/ranking` | ✅ |
+| `ShameView.vue` | `/p/:slug/verguenza` | ✅ |
+| `PowersView.vue` | `/p/:slug/poderes` | ✅ |
+| `ShareMomentView.vue` | `/p/:slug/momento/:momentId` | ✅ |
+
+### Components (`frontend/src/components/`)
+
+```
+layout/
+  AppShell.vue          # Top-level shell with bottom nav
+  BottomNav.vue         # Mobile tab bar
+
+marketing/
+  MarketingHero.vue     # Landing hero section
+  HowItWorks.vue        # Explainer section
+
+community/
+  CommunityHeader.vue
+  CommunityProgressCard.vue
+  UpgradePrompt.vue
+
+predictions/
+  PredictionCard.vue
+
+ranking/
+  LeaderboardCard.vue
+  ViralLeaderboard.vue
+
+shame/
+  ShameTableCard.vue
+
+powers/
+  OraclePowerCard.vue
+
+share/
+  ShareMomentCard.vue
+  WhatsAppShareButton.vue
+
+PredictionBoard.vue     # Draggable 32-team ranking (vuedraggable)
+ShareButtons.vue        # WhatsApp / X / Telegram / Facebook share
+HelloWorld.vue          # Scaffold remnant
+```
+
+### Mock data (`frontend/src/lib/mock-data/`)
+
+All data is currently **client-side mock objects** — no live API calls from views:
+
+| File | Contents |
+|------|----------|
+| `communities.js` | `demoCommunities[]` — slug, captain, progress, stats |
+| `matches.js` | `demoMatches[]` — groups, status (abierto / cierra-pronto / finalizado), predictions |
+| `powers.js` | Oracle power cards |
+| `rankings.js` | Sports leaderboard + viral leaderboard |
+| `shame.js` | Shame table entries |
+| `shareMoments.js` | Share moment snapshots |
+
+---
+
+## 5. World Cup Data Already Present
+
+The `PredictionBoard.vue` has **32 national teams hardcoded** with codes, names, and a tier rating (`form: S+ / S / A+ / … / D`). This covers all historic World Cup qualifiers but is **not yet tied** to any API or database.
+
+`mock-data/matches.js` has a handful of demo matches (group stage fixtures: ECU-QAT, ARG-MEX, BRA-SRB, ESP-GER). No full schedule yet.
+
+---
+
+## 6. Testing
+
+**No test framework is configured.** There are no `vitest.config.*`, `jest.config.*`, or `playwright.config.*` files anywhere in the project. Neither `package.json` includes test scripts or test devDependencies. All test files found are inside `node_modules` (third-party).
+
+---
+
+## 7. Recommendations
+
+### (a) Drag-and-drop library
+
+**Keep `vuedraggable@^4.1.0` — already installed and in active use.**
+
+`vuedraggable` v4 wraps SortableJS and works well with Vue 3 `v-model`. It is already wired up in `PredictionBoard.vue` with touch support (`touch-action: none` in CSS) and a `handle` prop to avoid accidental drags. No migration cost. If more advanced gesture control or pointer-event customization is needed later, `@vueuse/gesture` or raw SortableJS are the natural next step, but there is no reason to change now.
+
+### (b) Persistence approach
+
+**Short-term: `localStorage` per user; medium-term: Supabase via the existing Express backend.**
+
+Rationale:
+- The backend and Supabase client are already scaffolded (`src/supabase.js`, `SUPABASE_SERVICE_ROLE_KEY`). The database is the correct long-term store for predictions so communities can compute shared rankings and shame tables.
+- Until Supabase tables/RLS are designed, **localStorage** (keyed by Clerk `userId`) is the correct intermediate step. It keeps the app functional offline (PWA requirement), requires zero backend changes, and syncs trivially when the real API is ready.
+- Recommended pattern: write to localStorage immediately on drag (optimistic), queue a `PATCH /api/predictions` call, and confirm or roll back. This matches the "social game" UX where instant feedback matters.
+
+### (c) Test framework
+
+**Add Vitest — nothing is configured yet, so start fresh.**
+
+Vitest is the natural companion for a Vite project:
+- Zero-config with Vite (shares the same `vite.config.js`).
+- Works with `@vue/test-utils` for component tests.
+- `jsdom` environment covers DOM testing without a browser.
+- Add `@playwright/test` later for E2E flows (login → create community → predict).
+
+Suggested minimal setup:
+
+```bash
+cd frontend
+npm install -D vitest @vue/test-utils jsdom
+```
+
+Add to `frontend/package.json`:
+```json
+"test": "vitest run",
+"test:watch": "vitest"
+```
+
+Add `test` block to `vite.config.js`:
+```js
+test: {
+  environment: 'jsdom',
+  globals: true,
+}
+```
