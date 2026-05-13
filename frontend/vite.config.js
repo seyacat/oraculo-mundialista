@@ -7,6 +7,14 @@ export default defineConfig(({ mode }) => {
   const devApiProxyTarget = env.VITE_DEV_API_PROXY_TARGET || 'http://localhost:3000'
 
   return {
+    test: {
+      environment: 'node',
+      globals: true,
+      coverage: {
+        provider: 'v8',
+        include: ['src/lib/worldcup/**'],
+      },
+    },
     plugins: [
       vue(),
       VitePWA({
