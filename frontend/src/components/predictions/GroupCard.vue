@@ -32,6 +32,8 @@
       tag="ol"
       :component-data="{ type: 'transition-group', name: 'team-slide' }"
       @change="onOrderChange"
+      @start="isDragging = true"
+      @end="isDragging = false"
     >
       <template #item="{ element, index }">
         <li
@@ -76,8 +78,8 @@
       </template>
     </draggable>
 
-    <!-- ── Drop zone indicator (shown while dragging via CSS) ── -->
-    <div class="drop-hint" aria-hidden="true">Suelta aquí para reordenar</div>
+    <!-- ── Drop zone indicator (shown while dragging) ── -->
+    <div class="drop-hint" :class="{ 'drop-hint--active': isDragging }" aria-hidden="true">Suelta aquí para reordenar</div>
   </article>
 </template>
 
@@ -85,6 +87,8 @@
 import { computed, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import { countryFlag, positionMeta } from '../../lib/mock-data/groups'
+
+const isDragging = ref(false)
 
 const props = defineProps({
   group: {
@@ -227,8 +231,6 @@ function positionStatus(index) {
   user-select: none;
   /* Prevent text-selection flicker on mobile drag */
   -webkit-user-select: none;
-  /* Allow the drag handler to work; prevent native scroll interference */
-  touch-action: none;
   transition: border-color 180ms ease, background 180ms ease, transform 160ms ease, box-shadow 180ms ease;
   position: relative;
 }
@@ -302,7 +304,7 @@ function positionStatus(index) {
 
 /* ── Drop zone hint ── */
 .drop-hint {
-  display: none; /* shown via JS/CSS trick when sortable is active */
+  display: none;
   margin: 4px 6px 6px;
   border: 1.5px dashed rgba(149, 211, 192, 0.3);
   border-radius: 10px;
@@ -311,6 +313,10 @@ function positionStatus(index) {
   font-size: 0.72rem;
   text-align: center;
   pointer-events: none;
+}
+
+.drop-hint--active {
+  display: block;
 }
 
 /* ── Position badge ── */

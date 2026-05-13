@@ -57,6 +57,7 @@ const availablePowers = computed(() => powers.value.filter((power) => power.stat
 
 const navItems = computed(() => [
   { to: `/p/${slug.value}`, label: 'Inicio', short: 'IN' },
+  { to: `/p/${slug.value}/fase-grupos`, label: 'Grupos', short: 'GR' },
   { to: `/p/${slug.value}/predicciones`, label: 'Predic.', short: 'PR' },
   { to: `/p/${slug.value}/ranking`, label: 'Ranking', short: 'RK' },
   { to: `/p/${slug.value}/verguenza`, label: 'Verg.', short: 'VG' },

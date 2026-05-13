@@ -1,5 +1,5 @@
 <template>
-  <nav class="bottom-nav" aria-label="Navegacion de comunidad">
+  <nav class="bottom-nav" aria-label="Navegacion de comunidad" :style="{ '--nav-cols': items.length }">
     <RouterLink
       v-for="item in items"
       :key="item.to"
@@ -30,7 +30,7 @@ defineProps({
   bottom: 8px;
   z-index: 30;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--nav-cols, 5), minmax(0, 1fr));
   gap: 3px;
   border: 1px solid rgba(149, 211, 192, 0.18);
   border-radius: 22px;
@@ -86,6 +86,16 @@ defineProps({
 .nav-item.active .nav-mark {
   background: var(--energy);
   color: var(--energy-text);
+}
+
+@media (max-width: 400px) {
+  .bottom-nav {
+    gap: 2px;
+  }
+
+  .nav-item {
+    font-size: 0.56rem;
+  }
 }
 
 @media (min-width: 760px) {
