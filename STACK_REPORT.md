@@ -30,8 +30,8 @@ OraculoMundialista/
 | **PWA** | `vite-plugin-pwa@^1.3.0` | `registerType: 'autoUpdate'`, manifest in `vite.config.js` |
 | **Routing** | **Vue Router 5** (`vue-router@^5.0.6`) | `createWebHistory`, auth guard via `useAuth()` |
 | **Auth** | **Clerk** (`@clerk/vue@^2.2.0`) | `clerkPlugin`, `<SignIn>`, `<SignedIn/Out>`, `<UserButton>`, `useAuth()` |
-| **State management** | **None** (no Pinia / Vuex) | Local `ref`/`reactive` in each component; a `useDemoCommunity` composable for demo data |
-| **Drag-and-drop** | **vuedraggable@^4.1.0** | Already installed & used in `PredictionBoard.vue` |
+| **State management** | **None** (no Pinia / Vuex) | Local `ref`/`reactive` per component; shared module-level `ref` in composables (`useGroupStage`) |
+| **Drag-and-drop** | **vuedraggable@^4.1.0** | Already installed and in active use (see `PredictionBoard.vue`, `GroupCard.vue`) |
 | **Styling** | **Plain CSS** (no Tailwind / CSS Modules / styled-components) | Global design tokens via CSS custom properties in `style.css`; per-component `<style scoped>` |
 | **HTTP client** | Native `fetch` | Thin wrapper in `src/lib/api.js`; proxy `/api → localhost:3000` in `vite.config.js` |
 
@@ -87,12 +87,12 @@ OraculoMundialista/
 
 ```
 layout/
-  AppShell.vue          # Top-level shell with bottom nav
-  BottomNav.vue         # Mobile tab bar
+  AppShell.vue            # Top-level shell with bottom nav
+  BottomNav.vue           # Mobile tab bar
 
 marketing/
-  MarketingHero.vue     # Landing hero section
-  HowItWorks.vue        # Explainer section
+  MarketingHero.vue       # Landing hero section
+  HowItWorks.vue          # Explainer section
 
 community/
   CommunityHeader.vue
@@ -100,7 +100,8 @@ community/
   UpgradePrompt.vue
 
 predictions/
-  PredictionCard.vue
+  GroupCard.vue           # Per-group draggable ranking card (vuedraggable, ghost/chosen/drag-class)
+  PredictionCard.vue      # Individual match prediction card
 
 ranking/
   LeaderboardCard.vue
@@ -116,10 +117,17 @@ share/
   ShareMomentCard.vue
   WhatsAppShareButton.vue
 
-PredictionBoard.vue     # Draggable 32-team ranking (vuedraggable)
-ShareButtons.vue        # WhatsApp / X / Telegram / Facebook share
-HelloWorld.vue          # Scaffold remnant
+PredictionBoard.vue       # Legacy draggable 32-team ranking (vuedraggable)
+ShareButtons.vue          # WhatsApp / X / Telegram / Facebook share
+HelloWorld.vue            # Scaffold remnant
 ```
+
+### Composables (`frontend/src/composables/`)
+
+| File | Purpose |
+|------|---------|
+| `useGroupStage.js` | Module-level singleton managing all 12 WC 2026 groups; exposes `groups`, `directQualifiers`, `thirdPlaceTeams`, `qualifierIds`, `possibleIds`, `summary`, `updateGroupOrder`, `resetGroup`, `resetAll`. Persists to `localStorage` under key `oraculo-group-stage-v1` via a deep `watch`. |
+| `useDemoCommunity.js` | Provides mock community data for component development |
 
 ### Mock data (`frontend/src/lib/mock-data/`)
 
@@ -128,6 +136,7 @@ All data is currently **client-side mock objects** — no live API calls from vi
 | File | Contents |
 |------|----------|
 | `communities.js` | `demoCommunities[]` — slug, captain, progress, stats |
+| `groups.js` | `wc2026Groups[]` — **12 groups A–L, 48 teams**, each with `id`, `code`, `name`, `isoCode` (ISO 3166-1 alpha-2), `pot`; plus helpers `countryFlag(iso2)` and `positionMeta(index)` |
 | `matches.js` | `demoMatches[]` — groups, status (abierto / cierra-pronto / finalizado), predictions |
 | `powers.js` | Oracle power cards |
 | `rankings.js` | Sports leaderboard + viral leaderboard |
@@ -138,9 +147,26 @@ All data is currently **client-side mock objects** — no live API calls from vi
 
 ## 5. World Cup Data Already Present
 
-The `PredictionBoard.vue` has **32 national teams hardcoded** with codes, names, and a tier rating (`form: S+ / S / A+ / … / D`). This covers all historic World Cup qualifiers but is **not yet tied** to any API or database.
+### Full WC 2026 Group Stage (`src/lib/mock-data/groups.js`)
 
-`mock-data/matches.js` has a handful of demo matches (group stage fixtures: ECU-QAT, ARG-MEX, BRA-SRB, ESP-GER). No full schedule yet.
+All **48 teams across 12 groups (A–L)** are defined with:
+- Stable `id` and 3-letter FIFA `code`
+- Spanish `name`
+- ISO 3166-1 alpha-2 `isoCode` → used by `countryFlag()` to derive emoji flags (🇦🇷, 🇧🇷, …)
+- Seeding `pot` (1–4)
+
+The `positionMeta(index)` helper encodes WC 2026 qualification rules:
+- 1st & 2nd → *clasifica directamente*
+- 3rd → *posible* (best 8 of 12 advance)
+- 4th → *eliminado*
+
+### Legacy 32-team list (`PredictionBoard.vue`)
+
+Hardcoded array of 32 teams with a tier rating (`form: S+/S/A+/…/D`). This predates `groups.js` and the two datasets overlap — the groups-based data is the canonical source going forward.
+
+### Demo match fixtures (`mock-data/matches.js`)
+
+Four sample group-stage matches (ECU–QAT, ARG–MEX, BRA–SRB, ESP–GER). No full schedule yet.
 
 ---
 
@@ -154,18 +180,22 @@ The `PredictionBoard.vue` has **32 national teams hardcoded** with codes, names,
 
 ### (a) Drag-and-drop library
 
-**Keep `vuedraggable@^4.1.0` — already installed and in active use.**
+**Keep `vuedraggable@^4.1.0` — already installed and actively used in two components.**
 
-`vuedraggable` v4 wraps SortableJS and works well with Vue 3 `v-model`. It is already wired up in `PredictionBoard.vue` with touch support (`touch-action: none` in CSS) and a `handle` prop to avoid accidental drags. No migration cost. If more advanced gesture control or pointer-event customization is needed later, `@vueuse/gesture` or raw SortableJS are the natural next step, but there is no reason to change now.
+`vuedraggable` v4 wraps SortableJS and works natively with Vue 3 `v-model`. Both `PredictionBoard.vue` (legacy, flat list of 32 teams) and `GroupCard.vue` (per-group, with `ghost-class`, `chosen-class`, `drag-class`, and `<transition-group>`) use it. Touch support is handled via `touch-action: none` in CSS. No migration cost. If more advanced pointer-event customization is needed later, raw SortableJS is the natural fallback — but there is no reason to change now.
 
 ### (b) Persistence approach
 
-**Short-term: `localStorage` per user; medium-term: Supabase via the existing Express backend.**
+**`localStorage` is already the implemented short-term store; Supabase via the existing Express backend is the correct medium-term target.**
 
-Rationale:
-- The backend and Supabase client are already scaffolded (`src/supabase.js`, `SUPABASE_SERVICE_ROLE_KEY`). The database is the correct long-term store for predictions so communities can compute shared rankings and shame tables.
-- Until Supabase tables/RLS are designed, **localStorage** (keyed by Clerk `userId`) is the correct intermediate step. It keeps the app functional offline (PWA requirement), requires zero backend changes, and syncs trivially when the real API is ready.
-- Recommended pattern: write to localStorage immediately on drag (optimistic), queue a `PATCH /api/predictions` call, and confirm or roll back. This matches the "social game" UX where instant feedback matters.
+`useGroupStage.js` already persists the 12-group prediction tree to `localStorage` under `oraculo-group-stage-v1` with a deep `watch`. This covers the offline/PWA requirement.
+
+The upgrade path is:
+1. **Now (done):** `localStorage` keyed by composable constant — instant optimistic UI, survives refreshes.
+2. **Next:** When a user is signed in, add a `PATCH /api/predictions/group-stage` endpoint that writes to Supabase, called debounced on each drag. Clerk's `userId` becomes the Supabase row key.
+3. **Long-term:** Supabase becomes the source of truth so communities can compute shared rankings and shame tables across all members.
+
+Recommended pattern for the transition: write to `localStorage` immediately (optimistic), queue the API call, and roll back on error.
 
 ### (c) Test framework
 
@@ -186,7 +216,7 @@ npm install -D vitest @vue/test-utils jsdom
 
 Add to `frontend/package.json`:
 ```json
-"test": "vitest run",
+"test":       "vitest run",
 "test:watch": "vitest"
 ```
 
@@ -197,3 +227,8 @@ test: {
   globals: true,
 }
 ```
+
+Priority test targets once Vitest is wired up:
+- `useGroupStage.js` — pure logic, trivial to unit-test (updateGroupOrder, resetGroup, localStorage serialization)
+- `countryFlag()` and `positionMeta()` in `groups.js`
+- `ShareButtons.vue` / `WhatsAppShareButton.vue` — verify share URL generation
