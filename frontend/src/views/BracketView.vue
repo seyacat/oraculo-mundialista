@@ -1,5 +1,5 @@
 <template>
-  <AppShell eyebrow="Eliminatorias" title="Cuadro Final" :back-to="`/p/${slug}`">
+  <AppShell eyebrow="Eliminatorias" title="Octavos → Final" :back-to="`/p/${slug}`">
     <section class="bk-header-actions">
       <div class="bk-progress glass-card">
         <span class="bk-progress-label">
@@ -21,7 +21,7 @@
       </button>
 
       <p class="bk-hint">
-        Toca cada equipo para elegir el ganador
+        Arrastra el ganador de cada partido al siguiente slot
       </p>
     </section>
 
@@ -39,72 +39,106 @@
 
     <section class="bk-bracket-scroll">
       <div class="bk-bracket-grid">
+        <!-- Octavos (Round of 16) -->
         <div class="bk-round-col">
-          <h3 class="bk-round-title">Dieciseisavos</h3>
+          <h3 class="bk-round-title">Octavos de Final</h3>
           <div class="bk-round-matches">
-            <BracketMatchCard
-              v-for="m in bracket.r32"
-              :key="m.id"
-              :match="m"
-              round-name="R32"
-              @pick-winner="onPickWinner"
-            />
-          </div>
-        </div>
-
-        <div class="bk-round-col">
-          <h3 class="bk-round-title">Octavos</h3>
-          <div class="bk-round-matches">
-            <BracketMatchCard
+            <div
               v-for="m in bracket.r16"
               :key="m.id"
-              :match="m"
-              round-name="R16"
-              @pick-winner="onPickWinner"
-            />
+              class="bk-match-with-drop"
+            >
+              <BracketMatchCard
+                :match="m"
+                round-name="8vos"
+                @pick-winner="onPickWinner"
+              />
+              <BracketDropSlot
+                :match-id="m.id"
+                slot="advance"
+                :assigned-team="getNextMatchTeam(m)"
+                :highlight="!!m.winner && !getNextMatchTeam(m)"
+                arrow="→"
+                @drop-team="onDropAdvance"
+                @clear-team="onClearAdvance(m)"
+              />
+            </div>
           </div>
         </div>
 
+        <!-- Cuartos (Quarterfinals) -->
         <div class="bk-round-col">
-          <h3 class="bk-round-title">Cuartos</h3>
+          <h3 class="bk-round-title">Cuartos de Final</h3>
           <div class="bk-round-matches">
-            <BracketMatchCard
+            <div
               v-for="m in bracket.qf"
               :key="m.id"
-              :match="m"
-              round-name="QF"
-              @pick-winner="onPickWinner"
-            />
+              class="bk-match-with-drop"
+            >
+              <BracketMatchCard
+                :match="m"
+                round-name="CF"
+                @pick-winner="onPickWinner"
+              />
+              <BracketDropSlot
+                :match-id="m.id"
+                slot="advance"
+                :assigned-team="getNextMatchTeam(m)"
+                :highlight="!!m.winner && !getNextMatchTeam(m)"
+                arrow="→"
+                @drop-team="onDropAdvance"
+                @clear-team="onClearAdvance(m)"
+              />
+            </div>
           </div>
         </div>
 
+        <!-- Semifinales -->
         <div class="bk-round-col">
           <h3 class="bk-round-title">Semifinales</h3>
           <div class="bk-round-matches">
-            <BracketMatchCard
+            <div
               v-for="m in bracket.sf"
               :key="m.id"
-              :match="m"
-              round-name="SF"
-              @pick-winner="onPickWinner"
-            />
+              class="bk-match-with-drop"
+            >
+              <BracketMatchCard
+                :match="m"
+                round-name="SF"
+                @pick-winner="onPickWinner"
+              />
+              <BracketDropSlot
+                :match-id="m.id"
+                slot="advance"
+                :assigned-team="getNextMatchTeam(m)"
+                :highlight="!!m.winner && !getNextMatchTeam(m)"
+                arrow="→"
+                @drop-team="onDropAdvance"
+                @clear-team="onClearAdvance(m)"
+              />
+            </div>
           </div>
         </div>
 
+        <!-- Finales -->
         <div class="bk-round-col bk-round-col--finals">
           <h3 class="bk-round-title">Finales</h3>
           <div class="bk-round-matches">
-            <BracketMatchCard
-              :match="bracket.third"
-              round-name="3°"
-              @pick-winner="onPickWinner"
-            />
-            <BracketMatchCard
-              :match="bracket.final"
-              round-name="Final"
-              :is-champion="true"
-              @pick-winner="onPickWinner"
-            />
+            <div class="bk-match-with-drop">
+              <BracketMatchCard
+                :match="bracket.third"
+                round-name="3°"
+                @pick-winner="onPickWinner"
+              />
+            </div>
+            <div class="bk-match-with-drop">
+              <BracketMatchCard
+                :match="bracket.final"
+                round-name="Final"
+                :is-champion="true"
+                @pick-winner="onPickWinner"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -122,7 +156,9 @@ import { useRoute } from 'vue-router'
 import AppShell from '../components/layout/AppShell.vue'
 import BottomNav from '../components/layout/BottomNav.vue'
 import BracketMatchCard from '../components/bracket/BracketMatchCard.vue'
+import BracketDropSlot from '../components/bracket/BracketDropSlot.vue'
 import { useBracket } from '../composables/useBracket'
+import { flattenBracket, getBracketMatch } from '../lib/worldcup/bracket'
 
 const route = useRoute()
 const slug = computed(() => route.params.slug || 'la-banda-del-mundial')
@@ -134,12 +170,37 @@ const {
   completedCount,
   totalBracketMatches,
   progressPercent,
-  selectedMatchId,
   resetBracket,
+  allMatches,
 } = useBracket()
 
 function onPickWinner({ matchId, winner }) {
   pickWinner(matchId, winner)
+}
+
+function getNextMatchTeam(match) {
+  if (!match.winner || !match.nextMatchId) return null
+  const flat = flattenBracket(bracket.value)
+  const nextMatch = flat.find((m) => m.id === match.nextMatchId)
+  if (!nextMatch) return null
+  if (nextMatch.homeSource === `W:${match.id}`) return nextMatch.homeTeam
+  if (nextMatch.awaySource === `W:${match.id}`) return nextMatch.awayTeam
+  return null
+}
+
+function onDropAdvance({ matchId, team }) {
+  const allMatches = flattenBracket(bracket.value)
+  const match = allMatches.find((m) => m.id === matchId)
+  if (!match || !match.homeTeam || !match.awayTeam) return
+  const isHome = team.id === match.homeTeam.id
+  const isAway = team.id === match.awayTeam.id
+  if (!isHome && !isAway) return
+  const winner = isHome ? match.homeTeam : match.awayTeam
+  pickWinner(matchId, winner)
+}
+
+function onClearAdvance(match) {
+  pickWinner(match.id, match.awayTeam)
 }
 
 function handleResetBracket() {
@@ -295,6 +356,12 @@ const navItems = computed(() => [
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.bk-match-with-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 @media (min-width: 900px) {

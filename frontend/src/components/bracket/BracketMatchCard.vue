@@ -6,9 +6,13 @@
       'bracket-match-card--pending': !match.winner && match.homeTeam && match.awayTeam,
       'bracket-match-card--empty': !match.homeTeam || !match.awayTeam,
       'bracket-match-card--champion': isChampion,
+      'bracket-match-card--drag-over': isDragOver,
     }"
     :aria-label="matchLabel"
     data-testid="bracket-match-card"
+    @dragover.prevent="onDragOver"
+    @dragleave="onDragLeave"
+    @drop.prevent="onDrop"
   >
     <header class="bm-header">
       <span class="bm-round-label">{{ roundLabel }}</span>
@@ -16,40 +20,46 @@
     </header>
 
     <div v-if="match.homeTeam && match.awayTeam" class="bm-teams">
-      <button
+      <div
         class="bm-team"
         :class="{
           'bm-team--winner': match.winner?.id === match.homeTeam.id,
           'bm-team--loser': match.winner && match.winner.id !== match.homeTeam.id,
         }"
-        type="button"
-        :disabled="!!match.winner"
-        @click="selectWinner(match.homeTeam)"
+        :draggable="!match.winner"
+        @dragstart="onTeamDragStart($event, match.homeTeam)"
+        @dragend="onTeamDragEnd"
       >
         <span class="bm-team-flag">{{ flag(match.homeTeam) }}</span>
         <span class="bm-team-code">{{ match.homeTeam.code }}</span>
         <span v-if="match.winner?.id === match.homeTeam.id" class="bm-crown" aria-hidden="true">★</span>
-      </button>
+        <span v-if="!match.winner" class="bm-drag-handle" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </div>
 
       <div class="bm-vs">
         <span v-if="!match.winner" class="bm-vs-text">VS</span>
         <span v-else class="bm-vs-dash">—</span>
       </div>
 
-      <button
+      <div
         class="bm-team"
         :class="{
           'bm-team--winner': match.winner?.id === match.awayTeam.id,
           'bm-team--loser': match.winner && match.winner.id !== match.awayTeam.id,
         }"
-        type="button"
-        :disabled="!!match.winner"
-        @click="selectWinner(match.awayTeam)"
+        :draggable="!match.winner"
+        @dragstart="onTeamDragStart($event, match.awayTeam)"
+        @dragend="onTeamDragEnd"
       >
         <span class="bm-team-flag">{{ flag(match.awayTeam) }}</span>
         <span class="bm-team-code">{{ match.awayTeam.code }}</span>
         <span v-if="match.winner?.id === match.awayTeam.id" class="bm-crown" aria-hidden="true">★</span>
-      </button>
+        <span v-if="!match.winner" class="bm-drag-handle" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </div>
     </div>
 
     <div v-else class="bm-teams bm-teams--tbd">
@@ -64,15 +74,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   match: { type: Object, required: true },
   roundName: { type: String, default: '' },
   isChampion: { type: Boolean, default: false },
+  dropMatchId: { type: String, default: '' },
 })
 
 const emit = defineEmits(['pick-winner'])
+const isDragOver = ref(false)
 
 const roundLabel = computed(() => {
   if (props.roundName) return props.roundName
@@ -114,9 +126,46 @@ function flag(team) {
   ).join('')
 }
 
-function selectWinner(team) {
+function onTeamDragStart(event, team) {
   if (props.match.winner) return
-  emit('pick-winner', { matchId: props.match.id, winner: team })
+  event.dataTransfer.setData('text/plain', JSON.stringify({
+    teamId: team.id,
+    teamName: team.name,
+    teamCode: team.code,
+    confederation: team.confederation,
+    sourceMatchId: props.match.id,
+  }))
+  event.dataTransfer.effectAllowed = 'move'
+  event.target.closest('.bm-team')?.classList.add('bm-team--dragging')
+}
+
+function onTeamDragEnd(event) {
+  event.target.closest('.bm-team')?.classList.remove('bm-team--dragging')
+}
+
+function onDragOver(event) {
+  if (!props.match.homeTeam || !props.match.awayTeam) return
+  if (props.match.winner) return
+  isDragOver.value = true
+  event.dataTransfer.dropEffect = 'move'
+}
+
+function onDragLeave() {
+  isDragOver.value = false
+}
+
+function onDrop(event) {
+  isDragOver.value = false
+  if (!props.match.homeTeam || !props.match.awayTeam) return
+  if (props.match.winner) return
+  const raw = event.dataTransfer.getData('text/plain')
+  if (!raw) return
+  const data = JSON.parse(raw)
+  const isHomeMatch = data.teamId === props.match.homeTeam.id
+  const isAwayMatch = data.teamId === props.match.awayTeam.id
+  if (!isHomeMatch && !isAwayMatch) return
+  const winner = props.match.homeTeam.id === data.teamId ? props.match.homeTeam : props.match.awayTeam
+  emit('pick-winner', { matchId: props.match.id, winner })
 }
 </script>
 
@@ -150,6 +199,12 @@ function selectWinner(team) {
   border-color: #ffd700;
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), 0 0 0 1.5px rgba(255, 215, 0, 0.3);
   background: rgba(255, 215, 0, 0.06);
+}
+
+.bracket-match-card--drag-over {
+  border-color: var(--energy) !important;
+  box-shadow: 0 0 24px rgba(210, 241, 0, 0.25), inset 0 0 12px rgba(210, 241, 0, 0.06);
+  background: rgba(210, 241, 0, 0.05);
 }
 
 .bm-header {
@@ -204,27 +259,42 @@ function selectWinner(team) {
   border: 1.5px solid rgba(149, 211, 192, 0.15);
   border-radius: 10px;
   background: rgba(17, 28, 45, 0.6);
-  cursor: pointer;
-  transition: border-color 180ms, background 180ms, transform 160ms;
+  transition: border-color 180ms, background 180ms, transform 160ms, opacity 180ms;
   font: inherit;
   color: var(--text);
   text-align: left;
   min-height: 40px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
-.bm-team:not(:disabled):hover {
+.bm-team[draggable="true"] {
+  cursor: grab;
+}
+
+.bm-team[draggable="true"]:hover {
   border-color: var(--energy);
   background: rgba(210, 241, 0, 0.08);
   transform: translateY(-1px);
 }
 
-.bm-team:not(:disabled):active {
+.bm-team[draggable="true"]:active {
+  cursor: grabbing;
   transform: scale(0.97);
 }
 
-.bm-team:disabled {
+.bm-team:not([draggable="true"]) {
   cursor: default;
   opacity: 0.85;
+}
+
+.bm-team--dragging {
+  opacity: 0.5;
+  transform: rotate(1.5deg) scale(1.03) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+  border-color: var(--energy) !important;
+  background: rgba(82, 94, 0, 0.55) !important;
 }
 
 .bm-team--winner {
@@ -256,6 +326,32 @@ function selectWinner(team) {
   color: #ffd700;
   font-size: 0.75rem;
   text-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+}
+
+.bm-drag-handle {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.bm-drag-handle span {
+  display: block;
+  width: 8px;
+  height: 1.5px;
+  border-radius: 999px;
+  background: var(--text-muted);
+}
+
+.bm-team:hover .bm-drag-handle {
+  opacity: 1;
+}
+
+.bm-drag-handle span:nth-child(2) {
+  width: 5px;
+  margin-left: auto;
 }
 
 .bm-vs {
