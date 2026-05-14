@@ -1,5 +1,5 @@
 <template>
-  <div class="share-buttons">
+  <div class="share-buttons" data-testid="share-buttons">
     <a :href="waLink" target="_blank" rel="noopener" class="btn btn-wa">
       <span aria-hidden="true">WA</span> WhatsApp
     </a>

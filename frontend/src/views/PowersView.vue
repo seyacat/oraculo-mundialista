@@ -22,7 +22,7 @@
       <h2>Usa tus poderes donde se decide la reputación.</h2>
       <p>Vuelve a predicciones o invita a tu gente para desbloquear más recursos de la comunidad.</p>
       <div class="action-row">
-        <RouterLink class="primary-button" :to="`/p/${slug}/predicciones`">Usar poder en predicciones</RouterLink>
+        <RouterLink class="primary-button" :to="`/p/${slug}/predicciones`" data-testid="use-power-predictions-link">Usar poder en predicciones</RouterLink>
         <WhatsAppShareButton
           label="Invitar para desbloquear"
           title="Invitación mundialista"

@@ -1,5 +1,5 @@
 <template>
-  <div class="sso-loading">
+  <div class="sso-loading" data-testid="sso-callback-view">
     <p>Iniciando sesion...</p>
     <AuthenticateWithRedirectCallback />
   </div>

@@ -5,6 +5,7 @@
     handle=".drag-handle"
     animation="200"
     class="team-list"
+    data-testid="prediction-board"
   >
     <template #item="{ element, index }">
       <div class="team-item">

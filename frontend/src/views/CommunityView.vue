@@ -16,7 +16,7 @@
         <p class="eyebrow">Siguiente acción</p>
         <h2>Predice el próximo partido.</h2>
         <p>No te quedes como El Fantasma de la jornada. Tu hinchada espera marcador.</p>
-        <RouterLink class="primary-button" :to="`/p/${slug}/predicciones`">Predecir próximo partido</RouterLink>
+        <RouterLink class="primary-button" :to="`/p/${slug}/predicciones`" data-testid="predict-next-match-link">Predecir próximo partido</RouterLink>
       </article>
     </section>
 

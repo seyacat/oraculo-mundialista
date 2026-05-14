@@ -6,6 +6,7 @@
       'drop-slot--filled': !!assignedTeam,
       'drop-slot--highlight': highlight,
     }"
+    data-testid="bracket-drop-slot"
     :data-match-id="matchId"
     :data-slot="slot"
     @dragover.prevent="onDragOver"
@@ -19,6 +20,7 @@
         class="ds-clear-btn"
         type="button"
         :aria-label="`Quitar ${assignedTeam.name}`"
+        data-testid="clear-drop-slot-btn"
         @click="$emit('clear-team', slot)"
       >
         ✕

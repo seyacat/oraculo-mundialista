@@ -12,6 +12,7 @@
         class="reset-btn"
         type="button"
         :aria-label="`Restablecer orden de ${group.label}`"
+        data-testid="reset-group-btn"
         @click="$emit('reset')"
       >
         ↺

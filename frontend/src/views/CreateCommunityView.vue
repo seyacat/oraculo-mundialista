@@ -15,6 +15,7 @@
           type="button"
           :class="{ selected: form.playerGoal === goal.value }"
           @click="form.playerGoal = goal.value"
+          :data-testid="`goal-${goal.value}-button`"
         >
           <strong>{{ goal.value }}</strong>
           <span>{{ goal.label }}</span>
@@ -24,27 +25,27 @@
       <div class="field-grid">
         <label>
           Nombre de comunidad
-          <input v-model="form.communityName" required />
+          <input v-model="form.communityName" required data-testid="community-name-input" />
         </label>
         <label>
           Nombre del creador
-          <input v-model="form.creatorName" required />
+          <input v-model="form.creatorName" required data-testid="creator-name-input" />
         </label>
         <label>
           Celular
-          <input v-model="form.phone" inputmode="tel" required />
+          <input v-model="form.phone" inputmode="tel" required data-testid="phone-input" />
         </label>
         <label>
           Ciudad
-          <input v-model="form.city" required />
+          <input v-model="form.city" required data-testid="city-input" />
         </label>
         <label>
           Equipo favorito
-          <input v-model="form.favoriteTeam" required />
+          <input v-model="form.favoriteTeam" required data-testid="favorite-team-input" />
         </label>
         <label>
           Modo comunidad
-          <select v-model="form.mode">
+          <select v-model="form.mode" data-testid="community-mode-select">
             <option>Liga de Amigos</option>
             <option>Reto Familiar</option>
             <option>Comunidad Mundialista</option>
@@ -54,11 +55,11 @@
       </div>
 
       <label class="check-row">
-        <input v-model="form.acceptsRules" type="checkbox" required />
+        <input v-model="form.acceptsRules" type="checkbox" required data-testid="accept-rules-checkbox" />
         Acepto participar con respeto, humor sano y espíritu mundialista.
       </label>
       <label class="check-row">
-        <input v-model="form.acceptsPromos" type="checkbox" />
+        <input v-model="form.acceptsPromos" type="checkbox" data-testid="accept-promos-checkbox" />
         Quiero recibir novedades y beneficios promocionales.
       </label>
 

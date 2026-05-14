@@ -18,7 +18,7 @@ const count = ref(0)
       <h1>Get started</h1>
       <p>Edit <code>src/App.vue</code> and save to test <code>HMR</code></p>
     </div>
-    <button type="button" class="counter" @click="count++">
+    <button type="button" class="counter" @click="count++" data-testid="hello-world-counter-btn">
       Count is {{ count }}
     </button>
   </section>

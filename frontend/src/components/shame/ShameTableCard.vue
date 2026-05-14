@@ -12,7 +12,7 @@
         <h3>{{ entry.playerName }}</h3>
         <p>{{ entry.reason }}</p>
         <small>{{ entry.matchLabel }}</small>
-        <button type="button" class="secondary-button">{{ entry.actionLabel }}</button>
+        <button type="button" class="secondary-button" :data-testid="`shame-action-${entry.id}-button`">{{ entry.actionLabel }}</button>
       </article>
     </div>
 

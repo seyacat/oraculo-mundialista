@@ -1,10 +1,10 @@
 <template>
-  <main class="dashboard-compat">
+  <main class="dashboard-compat" data-testid="dashboard-view">
     <section class="glass-card">
       <p class="eyebrow">Compatibilidad</p>
       <h1>El dashboard ahora vive en la comunidad.</h1>
       <p>Te llevamos a La Banda del Mundial para continuar la demo navegable.</p>
-      <RouterLink class="primary-button" to="/p/la-banda-del-mundial">Ir a la comunidad</RouterLink>
+      <RouterLink class="primary-button" to="/p/la-banda-del-mundial" data-testid="go-to-community-link">Ir a la comunidad</RouterLink>
     </section>
   </main>
 </template>

@@ -5,7 +5,7 @@
       <h2>{{ title }}</h2>
       <p>{{ description }}</p>
     </div>
-    <button type="button" class="secondary-button">{{ ctaLabel }}</button>
+    <button type="button" class="secondary-button" data-testid="upgrade-cta-button">{{ ctaLabel }}</button>
   </aside>
 </template>
 

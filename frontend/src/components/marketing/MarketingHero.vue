@@ -7,8 +7,8 @@
       <p v-if="microcopy" class="microcopy">{{ microcopy }}</p>
 
       <div class="hero-actions">
-        <RouterLink :to="primaryTo" class="primary-button">{{ primaryLabel }}</RouterLink>
-        <RouterLink :to="secondaryTo" class="secondary-button">{{ secondaryLabel }}</RouterLink>
+        <RouterLink :to="primaryTo" class="primary-button" data-testid="hero-primary-cta-link">{{ primaryLabel }}</RouterLink>
+        <RouterLink :to="secondaryTo" class="secondary-button" data-testid="hero-secondary-cta-link">{{ secondaryLabel }}</RouterLink>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <a class="whatsapp-cta" :href="whatsAppUrl" target="_blank" rel="noopener">
+      <a class="whatsapp-cta" :href="whatsAppUrl" target="_blank" rel="noopener" data-testid="hero-whatsapp-cta">
         <span aria-hidden="true">WA</span>
         Invitar por WhatsApp
       </a>

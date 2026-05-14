@@ -15,6 +15,7 @@
           :value="match.prediction?.homeScore"
           inputmode="numeric"
           aria-label="Marcador local"
+          data-testid="home-score-input"
           @input="$emit('update:homeScore', $event.target.value)"
         />
       </label>
@@ -25,6 +26,7 @@
           :value="match.prediction?.awayScore"
           inputmode="numeric"
           aria-label="Marcador visitante"
+          data-testid="away-score-input"
           @input="$emit('update:awayScore', $event.target.value)"
         />
       </label>
@@ -34,7 +36,7 @@
 
     <div class="card-actions">
       <span>{{ match.kickoffLabel }} · {{ match.closesInLabel }}</span>
-      <button type="button" class="primary-button" @click="$emit('save')">{{ buttonLabel }}</button>
+      <button type="button" class="primary-button" @click="$emit('save')" data-testid="save-prediction-button">{{ buttonLabel }}</button>
     </div>
 
     <p v-if="savedLabel" class="saved-feedback" role="status">{{ savedLabel }}</p>

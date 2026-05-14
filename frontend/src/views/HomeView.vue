@@ -9,7 +9,7 @@
             <p>Mundial + comunidad + orgullo</p>
           </div>
         </div>
-        <button class="menu-button" type="button" aria-label="Abrir menu">
+        <button class="menu-button" type="button" aria-label="Abrir menu" data-testid="menu-button">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M4 7h16v2H4V7Zm0 5h16v2H4v-2Zm0 5h16v2H4v-2Z" />
           </svg>
@@ -41,11 +41,11 @@
           <h2>Acceso seguro a tu comunidad</h2>
           <p></p>
           <div class="secure-actions">
-            <button type="button" class="auth-button" @click="openSignIn">
+            <button type="button" class="auth-button" @click="openSignIn" data-testid="continue-email-button">
               <img src="/oraculo-home/mail-icon.png" alt="" />
               Continuar con email
             </button>
-            <button type="button" class="auth-button" @click="openSignInGoogle">
+            <button type="button" class="auth-button" @click="openSignInGoogle" data-testid="continue-google-button">
               <img src="/oraculo-home/google-icon.png" alt="" />
               Continuar con Google
             </button>
@@ -98,7 +98,7 @@
       <section class="inside-section" id="inside" data-testid="inside-section">
         <h2>Que encontraras dentro</h2>
         <div class="inside-grid">
-          <article v-for="feature in insideFeatures" :key="feature.title" class="inside-card glass-panel">
+          <article v-for="feature in insideFeatures" :key="feature.title" class="inside-card glass-panel" :data-testid="`inside-feature-${feature.title.toLowerCase()}-card`">
             <h3>{{ feature.title }}</h3>
             <p>{{ feature.copy }}</p>
           </article>
@@ -110,7 +110,7 @@
         <div class="final-content">
           <h2>Entra y juega con tu gente.</h2>
           <p>Predice, compite y comparte la gloria mundialista.</p>
-          <button type="button" class="home-button primary" @click="openSignIn">
+          <button type="button" class="home-button primary" @click="openSignIn" data-testid="final-sign-in-button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.31 0-6 1.79-6 4v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-2.21-2.69-4-6-4Z" />
             </svg>

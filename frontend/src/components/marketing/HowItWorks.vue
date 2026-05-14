@@ -6,7 +6,7 @@
     </div>
 
     <div class="steps">
-      <article v-for="step in steps" :key="step.title" class="step-card glass-card">
+      <article v-for="(step, idx) in steps" :key="step.title" class="step-card glass-card" :data-testid="`how-it-works-step-${idx + 1}-card`">
         <span>{{ step.number }}</span>
         <h3>{{ step.title }}</h3>
         <p>{{ step.description }}</p>
