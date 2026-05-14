@@ -99,11 +99,13 @@ function onDrop(event) {
   border: 1.5px dashed rgba(149, 211, 192, 0.2);
   border-radius: 10px;
   padding: 6px 8px;
-  min-height: 40px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   transition: border-color 200ms, background 200ms, box-shadow 200ms;
   background: rgba(17, 28, 45, 0.3);
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .drop-slot--highlight {
@@ -188,5 +190,23 @@ function onDrop(event) {
 @keyframes bounceArrow {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(3px); }
+}
+
+@media (max-width: 480px) {
+  .drop-slot { min-height: 40px; padding: 4px 6px; }
+  .ds-team-flag { font-size: 0.85rem; }
+  .ds-team-code { font-size: 0.6rem; }
+  .ds-clear-btn { width: 24px; height: 24px; min-width: 24px; min-height: 24px; font-size: 0.55rem; }
+  .ds-label { font-size: 0.55rem; }
+  .ds-arrow { font-size: 0.65rem; }
+}
+
+@media (max-width: 380px) {
+  .drop-slot { min-height: 36px; padding: 3px 5px; border-radius: 8px; }
+  .ds-team-code { font-size: 0.55rem; }
+  .ds-clear-btn { width: 22px; height: 22px; min-width: 22px; min-height: 22px; font-size: 0.5rem; }
+  .ds-label { font-size: 0.5rem; }
+  .ds-arrow { font-size: 0.6rem; }
+  .ds-team-flag { font-size: 0.8rem; }
 }
 </style>

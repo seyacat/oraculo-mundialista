@@ -42,6 +42,8 @@ defineProps({
   width: min(1120px, 100%);
   margin: 0 auto;
   padding: 16px 16px 96px;
+  --shell-padding: 16px;
+  isolation: isolate;
 }
 
 .shell-header {
@@ -89,6 +91,23 @@ defineProps({
 .shell-main {
   display: grid;
   gap: 16px;
+  min-width: 0;
+}
+
+@media (max-width: 380px) {
+  .shell-main { gap: 12px; }
+}
+
+@media (min-width: 760px) {
+  .app-shell-layout {
+    padding: 24px 24px 112px;
+    --shell-padding: 24px;
+  }
+
+  .shell-header {
+    margin: -24px -24px 24px;
+    padding: 14px 24px;
+  }
 }
 
 @media (min-width: 760px) {

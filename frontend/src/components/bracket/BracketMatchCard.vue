@@ -173,13 +173,14 @@ function onDrop(event) {
 .bracket-match-card {
   border-radius: 14px;
   padding: 10px;
-  min-width: 150px;
-  max-width: 180px;
+  min-width: 140px;
+  max-width: 170px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   transition: border-color 220ms, box-shadow 220ms;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bracket-match-card--empty {
@@ -254,8 +255,8 @@ function onDrop(event) {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 8px;
+  gap: 3px;
+  padding: 6px 6px;
   border: 1.5px solid rgba(149, 211, 192, 0.15);
   border-radius: 10px;
   background: rgba(17, 28, 45, 0.6);
@@ -263,10 +264,11 @@ function onDrop(event) {
   font: inherit;
   color: var(--text);
   text-align: left;
-  min-height: 40px;
+  min-height: 44px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bm-team[draggable="true"] {
@@ -397,5 +399,52 @@ function onDrop(event) {
   font-size: 0.75rem;
   font-weight: 800;
   color: var(--text);
+}
+
+@media (max-width: 480px) {
+  .bracket-match-card {
+    min-width: 135px;
+    max-width: 155px;
+    padding: 8px;
+    gap: 4px;
+  }
+  .bm-team { min-height: 40px; padding: 5px 4px; gap: 2px; }
+  .bm-team-flag { font-size: 0.9rem; }
+  .bm-team-code { font-size: 0.55rem; }
+  .bm-vs { flex: 0 0 14px; }
+  .bm-vs-text { font-size: 0.45rem; }
+  .bm-round-label { font-size: 0.52rem; }
+  .bm-crown { font-size: 0.6rem; }
+  .bm-champion-strip { padding: 6px 10px; }
+  .bm-champion-name { font-size: 0.68rem; }
+}
+
+@media (max-width: 380px) {
+  .bracket-match-card {
+    min-width: 125px;
+    max-width: 145px;
+    padding: 6px;
+    gap: 3px;
+    border-radius: 12px;
+  }
+  .bm-team { min-height: 36px; padding: 4px 3px; gap: 1px; border-radius: 8px; }
+  .bm-team-flag { font-size: 0.8rem; }
+  .bm-team-code { font-size: 0.5rem; }
+  .bm-vs { flex: 0 0 12px; }
+  .bm-vs-text { font-size: 0.4rem; }
+  .bm-round-label { font-size: 0.48rem; }
+  .bm-crown { font-size: 0.55rem; }
+  .bm-drag-handle span { width: 6px; height: 1.5px; }
+}
+
+@media (min-width: 900px) {
+  .bracket-match-card {
+    min-width: 160px;
+    max-width: 190px;
+    padding: 12px;
+  }
+  .bm-team { min-height: 48px; padding: 7px 8px; }
+  .bm-team-flag { font-size: 1.15rem; }
+  .bm-team-code { font-size: 0.65rem; }
 }
 </style>
