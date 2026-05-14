@@ -1,5 +1,5 @@
 <template>
-  <aside class="upgrade-prompt">
+  <aside class="upgrade-prompt" data-testid="upgrade-prompt">
     <div>
       <p class="eyebrow">{{ eyebrow }}</p>
       <h2>{{ title }}</h2>

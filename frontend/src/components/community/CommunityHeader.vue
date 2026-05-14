@@ -1,5 +1,5 @@
 <template>
-  <section class="community-header">
+  <section class="community-header" data-testid="community-header">
     <div>
       <p class="eyebrow">{{ community.mode || 'Comunidad mundialista' }}</p>
       <h1>{{ community.name }}</h1>

@@ -1,5 +1,5 @@
 <template>
-  <section class="viral-leaderboard">
+  <section class="viral-leaderboard" data-testid="viral-leaderboard">
     <div class="heading">
       <p class="eyebrow">{{ eyebrow }}</p>
       <h2>{{ title }}</h2>

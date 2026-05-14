@@ -12,7 +12,7 @@
       </template>
     </LeaderboardCard>
 
-    <article v-else class="empty-note glass-card">
+    <article v-else class="empty-note glass-card" data-testid="ranking-empty-note">
       <p class="eyebrow">Si nadie predice todavía</p>
       <h2>{{ emptyStates.ranking.title }}</h2>
       <p>{{ emptyStates.ranking.description }}</p>

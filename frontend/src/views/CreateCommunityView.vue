@@ -1,11 +1,11 @@
 <template>
   <AppShell eyebrow="Crear comunidad" title="Reta a tu gente">
-    <form class="create-form glass-card" @submit.prevent="createCommunity">
+    <form class="create-form glass-card" @submit.prevent="createCommunity" data-testid="create-community-form">
       <div class="form-intro">
         <p class="eyebrow">Pregunta principal</p>
         <h2>¿Cuántos jugadores quieres retar?</h2>
         <p>Estás creando {{ form.communityName }} con meta de {{ form.playerGoal }} jugadores.</p>
-        <button type="submit" class="primary-button top-submit">Crear mi comunidad gratis</button>
+        <button type="submit" class="primary-button top-submit" data-testid="create-submit-top">Crear mi comunidad gratis</button>
       </div>
 
       <div class="goal-grid">
@@ -62,7 +62,7 @@
         Quiero recibir novedades y beneficios promocionales.
       </label>
 
-      <button type="submit" class="primary-button">Crear mi comunidad gratis</button>
+      <button type="submit" class="primary-button" data-testid="create-submit-bottom">Crear mi comunidad gratis</button>
     </form>
   </AppShell>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <article class="power-card glass-card" :class="power.status">
+  <article class="power-card glass-card" :class="power.status" data-testid="oracle-power-card">
     <div class="power-top">
       <span class="power-code">{{ power.code }}</span>
       <span class="power-status">{{ statusLabel }}</span>

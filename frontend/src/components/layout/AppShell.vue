@@ -1,6 +1,6 @@
 <template>
-  <div class="app-shell-layout">
-    <header v-if="title || eyebrow" class="shell-header">
+  <div class="app-shell-layout" data-testid="app-shell">
+    <header v-if="title || eyebrow" class="shell-header" data-testid="shell-header">
       <RouterLink v-if="backTo" :to="backTo" class="back-link" aria-label="Volver">
         <span aria-hidden="true"></span>
       </RouterLink>

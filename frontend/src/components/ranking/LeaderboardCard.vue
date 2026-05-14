@@ -1,5 +1,5 @@
 <template>
-  <section class="leaderboard-card glass-card">
+  <section class="leaderboard-card glass-card" data-testid="leaderboard-card">
     <div class="heading">
       <div>
         <p class="eyebrow">{{ eyebrow }}</p>

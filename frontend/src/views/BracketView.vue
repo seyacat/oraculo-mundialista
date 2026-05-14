@@ -15,6 +15,7 @@
         class="secondary-button bk-reset-btn"
         type="button"
         @click="handleResetBracket"
+        data-testid="reset-bracket-btn"
       >
         ↺ Resetear eliminatorias
       </button>
@@ -27,6 +28,7 @@
     <section
       v-if="champion"
       class="bk-champion-banner glass-card"
+      data-testid="champion-banner"
     >
       <span class="bk-champion-icon" aria-hidden="true">🏆</span>
       <div>

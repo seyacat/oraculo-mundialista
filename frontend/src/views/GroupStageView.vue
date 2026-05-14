@@ -3,7 +3,7 @@
 
     <div class="gs-actions">
       <p class="eyebrow gs-hint">Arrastra para reordenar · Top 2 clasifica de cada grupo</p>
-      <button class="secondary-button reset-all-btn" type="button" @click="resetAll">
+      <button class="secondary-button reset-all-btn" type="button" @click="resetAll" data-testid="reset-all-btn">
         ↺ Restablecer todo
       </button>
     </div>
@@ -40,12 +40,13 @@
         type="button"
         :aria-expanded="showQualifiers"
         @click="showQualifiers = !showQualifiers"
+        data-testid="qualifier-toggle-btn"
       >
         <span>{{ showQualifiers ? 'Ocultar clasificados' : `Ver clasificados (${summary.direct})` }}</span>
         <span class="toggle-chevron" :class="{ 'toggle-chevron--open': showQualifiers }" aria-hidden="true"></span>
       </button>
 
-      <div v-if="showQualifiers" class="qualifier-grid">
+      <div v-if="showQualifiers" class="qualifier-grid" data-testid="qualifier-grid">
         <div
           v-for="item in qualifierNames"
           :key="item.groupLabel"

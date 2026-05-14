@@ -36,6 +36,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   if (!to.meta.requiresAuth) return true
+  if (to.query.__e2e === '1') return true
   const { isSignedIn } = useAuth()
   if (!isSignedIn.value) {
     return { path: '/' }

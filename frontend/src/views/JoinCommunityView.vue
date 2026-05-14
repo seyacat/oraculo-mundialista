@@ -5,7 +5,7 @@
       <h2>Pancho te retó a entrar a {{ community.name }}.</h2>
       <p>Ya son {{ community.activePlayers }}/{{ community.playerGoal }} jugadores. Entran {{ community.nextBenefit?.remainingPlayers }} más y desbloquean el primer beneficio.</p>
 
-      <button type="button" class="primary-button accept-button" @click="acceptChallenge">Aceptar reto</button>
+      <button type="button" class="primary-button accept-button" @click="acceptChallenge" data-testid="accept-challenge-button">Aceptar reto</button>
 
       <CommunityProgressCard :community="community" :show-cta="false" />
 

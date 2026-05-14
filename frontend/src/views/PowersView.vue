@@ -4,14 +4,14 @@
       <p class="eyebrow">Cómo se ganan</p>
       <h2>Participa, invita y acierta para activar poderes.</h2>
       <p>Cada poder tiene usos limitados y un momento ideal. Si está bloqueado, la card explica cómo desbloquearlo.</p>
-      <RouterLink class="primary-button top-action" :to="`/p/${slug}/predicciones`">Usar poder en predicciones</RouterLink>
+      <RouterLink class="primary-button top-action" :to="`/p/${slug}/predicciones`" data-testid="use-power-link">Usar poder en predicciones</RouterLink>
     </section>
 
     <section v-if="powers.length" class="power-grid">
       <OraclePowerCard v-for="power in powers" :key="power.id" :power="power" />
     </section>
 
-    <article v-if="!powers.length || !availablePowers.length" class="empty-note glass-card">
+    <article v-if="!powers.length || !availablePowers.length" class="empty-note glass-card" data-testid="powers-empty-note">
       <p class="eyebrow">Si no hay poderes activos</p>
       <h2>{{ emptyStates.powers.title }}</h2>
       <p>{{ emptyStates.powers.description }}</p>

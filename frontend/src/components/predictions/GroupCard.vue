@@ -1,5 +1,5 @@
 <template>
-  <article class="group-card glass-card" :class="{ 'group-card--dragging-over': isDragging }" :aria-label="`${group.label} — predicción de clasificación`">
+  <article class="group-card glass-card" :class="{ 'group-card--dragging-over': isDragging }" :aria-label="`${group.label} — predicción de clasificación`" data-testid="group-card">
     <header class="group-header">
       <h3 class="group-label">{{ group.label }}</h3>
 

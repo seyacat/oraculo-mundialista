@@ -3,7 +3,7 @@
     <CommunityHeader :community="community" />
 
     <CommunityProgressCard :community="community" />
-    <article v-if="community.activePlayers < 3" class="empty-note glass-card">
+    <article v-if="community.activePlayers < 3" class="empty-note glass-card" data-testid="community-empty-note">
       <p class="eyebrow">Comunidad en crecimiento</p>
       <h2>{{ emptyStates.community.title }}</h2>
       <p>{{ emptyStates.community.description }}</p>
@@ -12,7 +12,7 @@
     <section class="home-grid">
       <PredictionCard :match="matches[0]" />
 
-      <article class="quick-card glass-card">
+      <article class="quick-card glass-card" data-testid="quick-card">
         <p class="eyebrow">Siguiente acción</p>
         <h2>Predice el próximo partido.</h2>
         <p>No te quedes como El Fantasma de la jornada. Tu hinchada espera marcador.</p>

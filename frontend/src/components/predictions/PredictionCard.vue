@@ -1,5 +1,5 @@
 <template>
-  <article class="prediction-card glass-card">
+  <article class="prediction-card glass-card" data-testid="prediction-card">
     <div class="match-meta">
       <div>
         <p class="eyebrow">{{ match.group }} - {{ match.stadium }}</p>

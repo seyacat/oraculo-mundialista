@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-13T18:13:50.847Z",
+  "updatedAt": "2026-05-14T02:12:13.918Z",
   "entries": [
     {
       "id": "git-branch-master",
@@ -89,6 +89,19 @@
       "updatedAt": "2026-05-13T17:25:08.242Z"
     },
     {
+      "id": "predictions-persistence",
+      "tags": [
+        "frontend",
+        "persistence",
+        "localStorage",
+        "predictions",
+        "composables"
+      ],
+      "title": "Predictions persistence: usePredictions composable + localStorage versioned key, backend API scaffolded",
+      "content": "Predictions are persisted via the `usePredictions` composable (frontend/src/composables) using localStorage with a versioned key (e.g., `oraculo:predictions:v1`). Covers both group-stage ordering and knockout-winner selections. Integrated into `useGroupStage.js` (key `oraculo-group-stage-v1`) and `useBracket.js` (loads persisted winners on mount via watch, persists on `pickWinner` and `resetBracket`). `PredictionsView.vue` captures score inputs via `PredictionCard.vue` emits and exposes a 'Reset predictions' control (also added to `BracketView`). Backend has scaffolded `PATCH /api/predictions/group-stage` (Clerk userId) ready for Supabase sync; tables not yet created so localStorage is source of truth for MVP. Tests cover save/load round-trip.",
+      "updatedAt": "2026-05-13T18:30:00.000Z"
+    },
+    {
       "id": "group-stage-persistence",
       "tags": [
         "frontend",
@@ -98,8 +111,8 @@
         "backend-sync"
       ],
       "title": "useGroupStage.js composable: localStorage persistence (key: 'oraculo-group-stage-v1'), backend sync path ready",
-      "content": "**frontend/src/composables/useGroupStage.js** handles group stage state: reactive prediction array, localStorage key `oraculo-group-stage-v1` (deep-watched for auto-persist). Backend already has scaffolded `PATCH /api/predictions/group-stage` endpoint (keyed by Clerk `userId`). Upgrade path: debounce composable writes to sync with Supabase. When implementing group stage UI, tie team reordering to this composable's update method.",
-      "updatedAt": "2026-05-13T17:25:08.242Z"
+      "content": "**frontend/src/composables/useGroupStage.js** handles group stage state: reactive prediction array, localStorage key `oraculo-group-stage-v1` (deep-watched for auto-persist). Backend already has scaffolded `PATCH /api/predictions/group-stage` endpoint (keyed by Clerk `userId`). Upgrade path: debounce composable writes to sync with Supabase. When implementing group stage UI, tie team reordering to this composable's update method. Now also wired through `usePredictions` for unified prediction persistence.",
+      "updatedAt": "2026-05-13T18:30:00.000Z"
     },
     {
       "id": "group-stage-ui-feature",

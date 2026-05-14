@@ -1,5 +1,5 @@
 <template>
-  <section class="how-it-works">
+  <section class="how-it-works" data-testid="how-it-works">
     <div class="section-heading">
       <p class="eyebrow">{{ eyebrow }}</p>
       <h2>{{ title }}</h2>

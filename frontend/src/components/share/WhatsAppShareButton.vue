@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="whatsapp-button" @click="handleShare">
+  <button type="button" class="whatsapp-button" @click="handleShare" data-testid="whatsapp-share-button">
     <span aria-hidden="true">WA</span>
     {{ label }}
   </button>

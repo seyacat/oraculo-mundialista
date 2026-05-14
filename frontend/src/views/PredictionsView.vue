@@ -7,6 +7,7 @@
         class="secondary-button pv-reset-btn"
         type="button"
         @click="handleResetScores"
+        data-testid="reset-predictions-btn"
       >
         ↺ Resetear predicciones
       </button>
@@ -24,7 +25,7 @@
       />
     </section>
 
-    <article v-else class="empty-note glass-card">
+    <article v-else class="empty-note glass-card" data-testid="predictions-empty-note">
       <p class="eyebrow">Cuando no haya partidos abiertos</p>
       <h2>{{ emptyStates.predictions.title }}</h2>
       <p>{{ emptyStates.predictions.description }}</p>

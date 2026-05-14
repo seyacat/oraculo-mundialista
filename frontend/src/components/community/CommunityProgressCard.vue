@@ -1,5 +1,5 @@
 <template>
-  <section class="progress-card glass-card">
+  <section class="progress-card glass-card" data-testid="community-progress-card">
     <div class="progress-top">
       <div>
         <p class="eyebrow">{{ eyebrow }}</p>

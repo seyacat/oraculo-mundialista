@@ -1,5 +1,5 @@
 <template>
-  <nav class="bottom-nav" aria-label="Navegacion de comunidad" :style="{ '--nav-cols': items.length }">
+  <nav class="bottom-nav" aria-label="Navegacion de comunidad" :style="{ '--nav-cols': items.length }" data-testid="bottom-nav">
     <RouterLink
       v-for="item in items"
       :key="item.to"

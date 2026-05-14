@@ -1,5 +1,5 @@
 <template>
-  <section class="marketing-hero">
+  <section class="marketing-hero" data-testid="marketing-hero">
     <div class="hero-copy">
       <p class="eyebrow">{{ eyebrow }}</p>
       <h1>{{ title }}</h1>

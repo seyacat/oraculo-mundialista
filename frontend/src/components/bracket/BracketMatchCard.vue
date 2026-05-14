@@ -8,6 +8,7 @@
       'bracket-match-card--champion': isChampion,
     }"
     :aria-label="matchLabel"
+    data-testid="bracket-match-card"
   >
     <header class="bm-header">
       <span class="bm-round-label">{{ roundLabel }}</span>

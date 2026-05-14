@@ -1,7 +1,7 @@
 <template>
-  <main class="oraculo-home">
+  <main class="oraculo-home" data-testid="home-view">
     <div class="home-shell">
-      <header class="home-header" aria-label="El Oraculo Mundial">
+      <header class="home-header" aria-label="El Oraculo Mundial" data-testid="home-header">
         <div class="brand-block">
           <img class="brand-logo" src="/oraculo-home/logo-oraculo.webp" alt="Logo de El Oraculo Mundial" />
           <div class="brand-copy">
@@ -16,7 +16,7 @@
         </button>
       </header>
 
-      <section class="hero-section">
+      <section class="hero-section" data-testid="hero-section">
         <h1>
           Tu <span class="lime-word">comunidad</span>
           mundialista empieza aqui.
@@ -24,7 +24,7 @@
         <p class="hero-copy">Predice partidos, compite con tu gente y comparte la gloria por WhatsApp.</p>
 
         <div class="hero-actions">
-          <button type="button" class="home-button primary" @click="openSignIn">
+          <button type="button" class="home-button primary" @click="openSignIn" data-testid="sign-in-button">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.31 0-6 1.79-6 4v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-2.21-2.69-4-6-4Z" />
             </svg>
@@ -35,7 +35,7 @@
         <p class="hero-microcopy">Inicia Sesion y accede TOTALMENTE GRATIS.</p>
       </section>
 
-      <section class="secure-card glass-panel" id="acceso-seguro">
+      <section class="secure-card glass-panel" id="acceso-seguro" data-testid="secure-card">
         <img src="/oraculo-home/acceso-seguro.png" alt="" class="secure-art" />
         <div class="secure-content">
           <h2>Acceso seguro a tu comunidad</h2>
@@ -50,12 +50,12 @@
               Continuar con Google
             </button>
           </div>
-          <RouterLink class="invite-link" to="/p/la-banda-del-mundial/unirse">¿Ya te invitaron? Entrar con mi link</RouterLink>
+          <RouterLink class="invite-link" to="/p/la-banda-del-mundial/unirse" data-testid="invite-link">¿Ya te invitaron? Entrar con mi link</RouterLink>
           <p class="secure-trust">Tus datos Siempre protegidos con Clerk</p>
         </div>
       </section>
 
-      <section class="preview-card glass-panel" aria-label="Crea tu Propia Comunidad y Diviértete Acertando">
+      <section class="preview-card glass-panel" aria-label="Crea tu Propia Comunidad y Diviértete Acertando" data-testid="preview-card">
         <p class="preview-label">Crea tu Propia Comunidad y Diviértete Acertando</p>
         <p class="preview-copy">Mientras más grande la comunidad más alto el Reto. ¿Te Atreves?</p>
 
@@ -95,7 +95,7 @@
         <p class="preview-footer">Disfruta en Familia, con tus Compañeros de Trabajo y Amigos TOTALMENTE GRATIS</p>
       </section>
 
-      <section class="inside-section" id="inside">
+      <section class="inside-section" id="inside" data-testid="inside-section">
         <h2>Que encontraras dentro</h2>
         <div class="inside-grid">
           <article v-for="feature in insideFeatures" :key="feature.title" class="inside-card glass-panel">
@@ -105,7 +105,7 @@
         </div>
       </section>
 
-      <section class="final-banner glass-panel">
+      <section class="final-banner glass-panel" data-testid="final-banner">
         <img src="/oraculo-home/trophy-beneficios.png" alt="" class="final-art" />
         <div class="final-content">
           <h2>Entra y juega con tu gente.</h2>

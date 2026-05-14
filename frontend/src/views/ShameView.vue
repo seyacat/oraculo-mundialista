@@ -12,7 +12,7 @@
     </section>
 
     <ShameTableCard v-if="shameEntries.length" :entries="shameEntries" />
-    <article v-else class="empty-note glass-card">
+    <article v-else class="empty-note glass-card" data-testid="shame-empty-note">
       <p class="eyebrow">Cuando nadie caiga</p>
       <h2>{{ emptyStates.shame.title }}</h2>
       <p>{{ emptyStates.shame.description }}</p>

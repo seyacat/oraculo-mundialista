@@ -1,5 +1,5 @@
 <template>
-  <article class="share-moment glass-card">
+  <article class="share-moment glass-card" data-testid="share-moment-card">
     <div>
       <p class="eyebrow">{{ moment.eyebrow }}</p>
       <h3>{{ moment.title }}</h3>

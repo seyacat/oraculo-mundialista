@@ -1,5 +1,5 @@
 <template>
-  <section class="shame-table">
+  <section class="shame-table" data-testid="shame-table">
     <div class="heading">
       <p class="eyebrow">{{ eyebrow }}</p>
       <h2>{{ title }}</h2>
