@@ -24,13 +24,12 @@
         <p class="hero-copy">Predice partidos, compite con tu gente y comparte la gloria por WhatsApp.</p>
 
         <div class="hero-actions">
-          <RouterLink class="home-button primary" to="/crear">
+          <button type="button" class="home-button primary" @click="openSignIn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.31 0-6 1.79-6 4v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-2.21-2.69-4-6-4Z" />
             </svg>
             Ingresar / Registrarme
-          </RouterLink>
-          
+          </button>
         </div>
 
         <p class="hero-microcopy">Inicia Sesion y accede TOTALMENTE GRATIS.</p>
@@ -42,11 +41,11 @@
           <h2>Acceso seguro a tu comunidad</h2>
           <p></p>
           <div class="secure-actions">
-            <button type="button" class="auth-button">
+            <button type="button" class="auth-button" @click="openSignIn">
               <img src="/oraculo-home/mail-icon.png" alt="" />
               Continuar con email
             </button>
-            <button type="button" class="auth-button">
+            <button type="button" class="auth-button" @click="openSignInGoogle">
               <img src="/oraculo-home/google-icon.png" alt="" />
               Continuar con Google
             </button>
@@ -111,12 +110,12 @@
         <div class="final-content">
           <h2>Entra y juega con tu gente.</h2>
           <p>Predice, compite y comparte la gloria mundialista.</p>
-          <RouterLink class="home-button primary" to="/crear">
+          <button type="button" class="home-button primary" @click="openSignIn">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2c-3.31 0-6 1.79-6 4v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1c0-2.21-2.69-4-6-4Z" />
             </svg>
             Ingresar / Registrarme
-          </RouterLink>
+          </button>
         </div>
       </section>
     </div>
@@ -124,6 +123,37 @@
 </template>
 
 <script setup>
+import { watchEffect } from 'vue'
+import { useAuth, useClerk } from '@clerk/vue'
+import { useRouter } from 'vue-router'
+
+const { isSignedIn } = useAuth()
+const clerk = useClerk()
+const router = useRouter()
+
+watchEffect(() => {
+  if (isSignedIn.value) {
+    router.replace('/p/la-banda-del-mundial')
+  }
+})
+
+function openSignIn() {
+  clerk.value?.openSignIn({ afterSignInUrl: '/p/la-banda-del-mundial', afterSignUpUrl: '/p/la-banda-del-mundial' })
+}
+
+async function openSignInGoogle() {
+  const signIn = clerk.value?.client?.signIn
+  if (signIn) {
+    await signIn.authenticateWithRedirect({
+      strategy: 'oauth_google',
+      redirectUrl: `${window.location.origin}/sso-callback`,
+      redirectUrlComplete: '/p/la-banda-del-mundial',
+    })
+  } else {
+    openSignIn()
+  }
+}
+
 const ranking = [
   { position: 1, name: 'Maria', points: 42 },
   { position: 2, name: 'Pancho', points: 39 },
