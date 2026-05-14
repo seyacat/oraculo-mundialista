@@ -39,6 +39,33 @@
 
     <section class="bk-bracket-scroll">
       <div class="bk-bracket-grid">
+        <!-- Dieciseisavos (Round of 32) -->
+        <div class="bk-round-col">
+          <h3 class="bk-round-title">Dieciseisavos</h3>
+          <div class="bk-round-matches">
+            <div
+              v-for="m in bracket.r32"
+              :key="m.id"
+              class="bk-match-with-drop"
+            >
+              <BracketMatchCard
+                :match="m"
+                round-name="R32"
+                @pick-winner="onPickWinner"
+              />
+              <BracketDropSlot
+                :match-id="m.id"
+                slot="advance"
+                :assigned-team="getNextMatchTeam(m)"
+                :highlight="!!m.winner && !getNextMatchTeam(m)"
+                arrow="→"
+                @drop-team="onDropAdvance"
+                @clear-team="onClearAdvance(m)"
+              />
+            </div>
+          </div>
+        </div>
+
         <!-- Octavos (Round of 16) -->
         <div class="bk-round-col">
           <h3 class="bk-round-title">Octavos de Final</h3>
