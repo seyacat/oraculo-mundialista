@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-14T02:12:13.918Z",
+  "updatedAt": "2026-05-14T03:04:30.511Z",
   "entries": [
     {
       "id": "git-branch-master",
@@ -176,6 +176,19 @@
       "title": "CSS custom properties in style.css: dark navy (#081425), mint (#95d3c0), lime (#d2f100), coral; utility classes & typography",
       "content": "**Design System:** Hand-written CSS with custom properties (no framework/Tailwind). **Colors:** dark navy background `#081425`, mint primary `#95d3c0`, lime energy `#d2f100`, coral for shame/loss states. **Utility Classes:** `.glass-card`, `.eyebrow`, `.primary-button`, `.secondary-button`. **Typography:** Plus Jakarta Sans (body), Inter (headings), Lexend (eyebrows/labels). Use these custom properties when building new components to maintain visual consistency.",
       "updatedAt": "2026-05-13T17:41:07.719Z"
+    },
+    {
+      "id": "playwright-e2e-testids",
+      "tags": [
+        "frontend",
+        "testing",
+        "playwright",
+        "e2e",
+        "convention"
+      ],
+      "title": "Playwright e2e setup in /e2e with data-testid attributes on all 15 components and 11 views",
+      "content": "Project has Playwright e2e tests in `/e2e/` directory (config + specs). All 15 components (layout, marketing, community, predictions, bracket, powers, ranking, shame, share) and 11 view files have stable `data-testid` attributes. Examples: `AppShell` → `app-shell`/`shell-header`, `BottomNav` → `bottom-nav`. **Convention:** When adding new components/views, include `data-testid` attributes on root elements and key interactive parts so Playwright selectors stay stable rather than relying on fragile CSS class selectors. Build passes cleanly after edits.",
+      "updatedAt": "2026-05-14T02:30:00.000Z"
     }
   ]
 }
