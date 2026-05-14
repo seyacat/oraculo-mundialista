@@ -5,6 +5,7 @@ import CreateCommunityView from '../views/CreateCommunityView.vue'
 import CommunityView from '../views/CommunityView.vue'
 import JoinCommunityView from '../views/JoinCommunityView.vue'
 import PredictionsView from '../views/PredictionsView.vue'
+import BracketView from '../views/BracketView.vue'
 import RankingView from '../views/RankingView.vue'
 import ShameView from '../views/ShameView.vue'
 import PowersView from '../views/PowersView.vue'
@@ -20,6 +21,7 @@ const routes = [
   { path: '/p/:slug/unirse', component: JoinCommunityView },
   { path: '/p/:slug/fase-grupos', component: GroupStageView, meta: { requiresAuth: true } },
   { path: '/p/:slug/predicciones', component: PredictionsView, meta: { requiresAuth: true } },
+  { path: '/p/:slug/eliminatorias', component: BracketView, meta: { requiresAuth: true } },
   { path: '/p/:slug/ranking', component: RankingView, meta: { requiresAuth: true } },
   { path: '/p/:slug/verguenza', component: ShameView, meta: { requiresAuth: true } },
   { path: '/p/:slug/poderes', component: PowersView, meta: { requiresAuth: true } },

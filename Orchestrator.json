@@ -1,0 +1,168 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-13T18:13:50.847Z",
+  "entries": [
+    {
+      "id": "git-branch-master",
+      "tags": [
+        "git",
+        "setup",
+        "gotcha"
+      ],
+      "title": "Main branch is 'master' not 'main'; keep branch names short to avoid truncation",
+      "content": "Repository uses 'master' as the default branch, not 'main'. Commands like `git checkout main` will fail. Always use `git checkout master` or verify branch names with `git branch -a` before checking out. Keep branch names concise (e.g., `task-XXXX-group-stage` not `task-XXXX-in-oraculomundialista-build-the-group-st`) to avoid git truncation errors.",
+      "updatedAt": "2026-05-13T16:40:07.896Z"
+    },
+    {
+      "id": "vite-path-alias-at-symbol",
+      "tags": [
+        "frontend",
+        "vite",
+        "configuration",
+        "imports",
+        "convention"
+      ],
+      "title": "@/ path alias configured in vite.config.js for frontend module imports",
+      "content": "Vite is configured with `resolve.alias['@'] = 'src'` in both runtime and test configs. Use `import { ... } from '@/lib/worldcup'` instead of relative paths like `'../../lib/worldcup'`. This matches standard Vue 3 convention and simplifies imports across the frontend codebase.",
+      "updatedAt": "2026-05-13T17:43:54.478Z"
+    },
+    {
+      "id": "tournament-bracket-system",
+      "tags": [
+        "backend",
+        "tournament",
+        "logic",
+        "architecture"
+      ],
+      "title": "Tournament bracket logic: groups → Round of 16 → bracket progression",
+      "content": "Project includes tournament/bracket system with: group stage selection, advancing teams from groups to Round of 16 slot assignment, bracket progression where winners propagate to next rounds, and state management where re-selecting a winner updates all downstream rounds. Tests needed to cover group logic, team advancement rules, bracket logic, and cascading updates.",
+      "updatedAt": "2026-05-13T00:00:00Z"
+    },
+    {
+      "id": "vitest-setup-frontend",
+      "tags": [
+        "frontend",
+        "testing",
+        "vitest",
+        "configuration"
+      ],
+      "title": "Vitest 4.1.6 configured with coverage; test scripts require NODE_ENV=development",
+      "content": "Frontend uses Vitest 4.1.6 + @vitest/coverage-v8. Test scripts in package.json MUST have `NODE_ENV=development` prefix to ensure dev dependencies load even when NODE_ENV=production is set globally. Vite config includes test block (node environment, globals, coverage config). Tests use `__tests__/` subdirectories next to source (e.g., `frontend/src/lib/worldcup/__tests__/`). Scripts: `npm run test` (run), `npm run test:watch` (watch), `npm run test:coverage` (coverage report).",
+      "updatedAt": "2026-05-13T16:35:00.000Z"
+    },
+    {
+      "id": "worldcup-domain-tests-passing",
+      "tags": [
+        "frontend",
+        "testing",
+        "worldcup",
+        "domain-logic"
+      ],
+      "title": "World Cup domain tests complete: 87 passing (data, standings, qualifiers, bracket)",
+      "content": "Test suite for `frontend/src/lib/worldcup/` complete with 87 passing tests across 4 files: **data.test.js** (22 tests: group integrity, reordering preserves 4 teams, match generation), **standings.test.js** (16 tests: H2H tiebreaker logic, points/GD/GF ordering, deterministic tie-breaking), **qualifiers.test.js** (22 tests: correct top-2 per group, best-3rd selection logic, higher-pts 3rd-place ranks above lower-pts rivals), **bracket.test.js** (27 tests: FIFA 2026 seeding (1A vs 2B, etc.), R16 propagation, re-flow on winner change, third-place match routing, full champion-path simulation). All edge cases validated.",
+      "updatedAt": "2026-05-13T16:35:00.000Z"
+    },
+    {
+      "id": "tech-stack-summary",
+      "tags": [
+        "architecture",
+        "tech-stack",
+        "frontend",
+        "backend",
+        "tooling"
+      ],
+      "title": "Tech stack: Vue 3.5 + Vite frontend (Plain CSS), Express 5 + Supabase backend, Clerk auth, vuedraggable drag-drop",
+      "content": "**Frontend:** Vue 3.5 + Vite 8, Plain CSS (design tokens via CSS custom properties in `style.css`), Vue Router 5, Clerk (`@clerk/vue`), no state management (local `ref`/`reactive`, composables for shared state), npm, vite-plugin-pwa with autoUpdate. **Backend:** Express 5 + Clerk middleware (`@clerk/express`) + Supabase (`@supabase/supabase-js` with service role key for admin access). **Drag-drop:** vuedraggable@^4.1.0 (already installed, used in `GroupCard.vue` with `ghost-class`, `chosen-class`, `drag-class` polish). CORS configured only for `http://localhost:5173`. All code in ES Modules (`\"type\": \"module\"`).",
+      "updatedAt": "2026-05-13T17:25:08.242Z"
+    },
+    {
+      "id": "world-cup-data-teams",
+      "tags": [
+        "frontend",
+        "world-cup",
+        "data",
+        "groups",
+        "teams"
+      ],
+      "title": "World Cup data: 12 groups (A–L), 48 teams in mock-data/groups.js with helpers countryFlag() and positionMeta()",
+      "content": "**mock-data/groups.js** contains: 12 FIFA 2026 groups (A–L) with 4 teams each (48 total), each team with ISO code, FIFA code, seeding pot, and includes helpers `countryFlag(countryCode)` and `positionMeta(groupLetter, position)` encoding WC 2026 qualification rules (which teams advance from each group). **mock-data/matches.js** has 4 demo fixture matches. **Legacy:** `PredictionBoard.vue` has hardcoded 32-team list (superseded by group-based approach). When building group stage UI, import from `groups.js` and use `positionMeta()` to highlight qualifiers.",
+      "updatedAt": "2026-05-13T17:25:08.242Z"
+    },
+    {
+      "id": "group-stage-persistence",
+      "tags": [
+        "frontend",
+        "group-stage",
+        "state-management",
+        "localStorage",
+        "backend-sync"
+      ],
+      "title": "useGroupStage.js composable: localStorage persistence (key: 'oraculo-group-stage-v1'), backend sync path ready",
+      "content": "**frontend/src/composables/useGroupStage.js** handles group stage state: reactive prediction array, localStorage key `oraculo-group-stage-v1` (deep-watched for auto-persist). Backend already has scaffolded `PATCH /api/predictions/group-stage` endpoint (keyed by Clerk `userId`). Upgrade path: debounce composable writes to sync with Supabase. When implementing group stage UI, tie team reordering to this composable's update method.",
+      "updatedAt": "2026-05-13T17:25:08.242Z"
+    },
+    {
+      "id": "group-stage-ui-feature",
+      "tags": [
+        "frontend",
+        "group-stage",
+        "drag-drop",
+        "ui",
+        "feature"
+      ],
+      "title": "Group Stage UI: render 12 groups with drag-drop team reordering using vuedraggable and qualifier highlighting",
+      "content": "Group Stage feature requires rendering 12 FIFA 2026 groups (4 teams each) with:\n- Drag-and-drop reordering of teams within groups (1st–4th positions) using **vuedraggable@^4.1.0** (already installed; reference `GroupCard.vue` for `ghost-class`/`chosen-class`/`drag-class` and `<transition-group>` polish)\n- Visual highlighting of top-2 qualifiers per group using `positionMeta()` helper (colored border, badge, or visual indicator)\n- Mobile-first responsive CSS grid (adapts from mobile ≤420px to desktop)\n- Touch + mouse support verified via device emulation in browser DevTools\n- Integration with useGroupStage.js composable for live qualifier updates when team order changes\n- Clear drop zones, hover states, visual feedback, and accessibility\n\nNote: Requires clearing or reusing existing branch (task-7ba1e854-... already exists).",
+      "updatedAt": "2026-05-13T17:25:08.242Z"
+    },
+    {
+      "id": "component-organization-structure",
+      "tags": [
+        "frontend",
+        "architecture",
+        "components",
+        "organization"
+      ],
+      "title": "16 components organized in feature-based subdirectories (layout/, community/, predictions/, ranking/, shame/, powers/, share/, marketing/) plus 3 legacy stubs",
+      "content": "Components in `frontend/src/components/` are organized by feature/domain: **layout/** (reusable layout wrappers), **community/** (community-related components), **predictions/** (prediction & group stage UI), **ranking/** (leaderboard/ranking views), **shame/** (\"Tabla de la Vergüenza\" shame components), **powers/** (power/ability mechanics), **share/** (sharing & social components), **marketing/** (landing/marketing components). Three legacy Etapa-1 stubs: `PredictionBoard.vue`, `ShareButtons.vue`, `HelloWorld.vue` (can be cleaned up after their usage is verified).",
+      "updatedAt": "2026-05-13T17:41:07.719Z"
+    },
+    {
+      "id": "sso-callback-view-missing",
+      "tags": [
+        "frontend",
+        "routing",
+        "auth",
+        "gotcha",
+        "missing-file"
+      ],
+      "title": "SsoCallbackView.vue is imported in router but file doesn't exist; OAuth callback will 404",
+      "content": "**Gotcha:** `frontend/src/router/index.js` imports `SsoCallbackView.vue`, but the file does not exist in the codebase. This will cause 404 errors when Clerk redirects users back to the OAuth callback route. Either create `SsoCallbackView.vue` or remove the unused import from the router. This is blocking OAuth/SSO flows.",
+      "updatedAt": "2026-05-13T17:41:07.719Z"
+    },
+    {
+      "id": "community-routing-pattern",
+      "tags": [
+        "frontend",
+        "routing",
+        "communities",
+        "state-management"
+      ],
+      "title": "Community pages routed under /p/:slug; all views currently use mock data via useDemoCommunity() composable",
+      "content": "All community-related pages follow the `/p/:slug` routing pattern (e.g., `/p/my-friends`, `/p/work-league`). Currently all views rely on `useDemoCommunity(slug)` composable that returns `computed` refs wrapping static mock-data modules. API wiring layer exists (`apiFetch()` in `frontend/src/lib/api.js`) but is not yet integrated. Real Supabase integration path: replace mock-data calls with API calls via `apiFetch()`.",
+      "updatedAt": "2026-05-13T17:41:07.719Z"
+    },
+    {
+      "id": "css-design-tokens-colors",
+      "tags": [
+        "frontend",
+        "styling",
+        "css",
+        "design-system",
+        "colors"
+      ],
+      "title": "CSS custom properties in style.css: dark navy (#081425), mint (#95d3c0), lime (#d2f100), coral; utility classes & typography",
+      "content": "**Design System:** Hand-written CSS with custom properties (no framework/Tailwind). **Colors:** dark navy background `#081425`, mint primary `#95d3c0`, lime energy `#d2f100`, coral for shame/loss states. **Utility Classes:** `.glass-card`, `.eyebrow`, `.primary-button`, `.secondary-button`. **Typography:** Plus Jakarta Sans (body), Inter (headings), Lexend (eyebrows/labels). Use these custom properties when building new components to maintain visual consistency.",
+      "updatedAt": "2026-05-13T17:41:07.719Z"
+    }
+  ]
+}

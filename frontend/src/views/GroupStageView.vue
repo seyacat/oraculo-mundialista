@@ -1,7 +1,6 @@
 <template>
   <AppShell eyebrow="Mundial 2026" title="Fase de Grupos" :back-to="`/p/${slug}`">
 
-    <!-- Actions row: hint text + reset-all button -->
     <div class="gs-actions">
       <p class="eyebrow gs-hint">Arrastra para reordenar · Top 2 clasifica de cada grupo</p>
       <button class="secondary-button reset-all-btn" type="button" @click="resetAll">
@@ -9,28 +8,32 @@
       </button>
     </div>
 
-    <!-- Live summary bar -->
     <section class="summary-bar glass-card" aria-label="Resumen de clasificación">
-      <div class="summary-stat">
+      <div class="summary-stat summary-stat--qualified">
         <span class="stat-dot" style="background: var(--primary)"></span>
         <span class="stat-number" style="color: var(--primary)">{{ summary.direct }}</span>
-        <span class="stat-label">Clasificados directos</span>
+        <span class="stat-label">Clasificados</span>
       </div>
       <div class="summary-divider" aria-hidden="true"></div>
-      <div class="summary-stat">
+      <div class="summary-stat summary-stat--possible">
+        <span class="stat-dot" style="background: #ffd700"></span>
+        <span class="stat-number" style="color: #ffd700">{{ summary.direct }}</span>
+        <span class="stat-label">A 8vos</span>
+      </div>
+      <div class="summary-divider" aria-hidden="true"></div>
+      <div class="summary-stat summary-stat--possible">
         <span class="stat-dot" style="background: var(--energy)"></span>
         <span class="stat-number" style="color: var(--energy)">{{ summary.possible }}</span>
         <span class="stat-label">Posibles 3ros</span>
       </div>
       <div class="summary-divider" aria-hidden="true"></div>
-      <div class="summary-stat">
+      <div class="summary-stat summary-stat--eliminated">
         <span class="stat-dot" style="background: var(--coral)"></span>
         <span class="stat-number" style="color: var(--coral)">{{ summary.eliminated }}</span>
         <span class="stat-label">Eliminados</span>
       </div>
     </section>
 
-    <!-- Qualifiers preview — collapsible, closed by default -->
     <section class="qualifiers-preview">
       <button
         class="qualifier-toggle-btn secondary-button"
@@ -44,35 +47,37 @@
 
       <div v-if="showQualifiers" class="qualifier-grid">
         <div
-          v-for="group in groups"
-          :key="group.id"
+          v-for="item in qualifierNames"
+          :key="item.groupLabel"
           class="qualifier-group-row"
         >
-          <span class="qualifier-group-label">{{ group.label.replace('Grupo ', '') }}</span>
+          <span class="qualifier-group-label">{{ item.groupLabel.replace('Grupo ', '') }}</span>
           <span class="team-chip team-chip--direct">
-            <span class="chip-flag">{{ countryFlag(group.teams[0].isoCode) }}</span>
-            <span class="chip-code">{{ group.teams[0].code }}</span>
+            <span class="chip-flag">{{ countryFlag(item.first.isoCode) }}</span>
+            <span class="chip-code">{{ item.first.code }}</span>
           </span>
           <span class="team-chip team-chip--direct">
-            <span class="chip-flag">{{ countryFlag(group.teams[1].isoCode) }}</span>
-            <span class="chip-code">{{ group.teams[1].code }}</span>
+            <span class="chip-flag">{{ countryFlag(item.second.isoCode) }}</span>
+            <span class="chip-code">{{ item.second.code }}</span>
           </span>
           <span class="team-chip team-chip--possible">
-            <span class="chip-flag">{{ countryFlag(group.teams[2].isoCode) }}</span>
-            <span class="chip-code">{{ group.teams[2].code }}</span>
+            <span class="chip-flag">{{ countryFlag(item.third.isoCode) }}</span>
+            <span class="chip-code">{{ item.third.code }}</span>
           </span>
         </div>
       </div>
     </section>
 
-    <!-- 12-group drag-and-drop grid -->
     <section class="groups-grid" aria-label="Predicciones por grupo">
       <GroupCard
         v-for="group in groups"
         :key="group.id"
         :group="group"
+        :dragging-group-id="draggingGroupId"
         @update:teams="updateGroupOrder(group.id, $event)"
         @reset="resetGroup(group.id)"
+        @drag-start="onDragStart"
+        @drag-end="onDragEnd"
       />
     </section>
 
@@ -94,9 +99,18 @@ import { countryFlag } from '../lib/mock-data/groups'
 const route = useRoute()
 const slug = computed(() => route.params.slug || 'la-banda-del-mundial')
 
-const { groups, summary, updateGroupOrder, resetGroup, resetAll } = useGroupStage()
+const { groups, summary, qualifierNames, updateGroupOrder, resetGroup, resetAll } = useGroupStage()
 
 const showQualifiers = ref(false)
+const draggingGroupId = ref(null)
+
+function onDragStart(groupId) {
+  draggingGroupId.value = groupId
+}
+
+function onDragEnd() {
+  draggingGroupId.value = null
+}
 
 const navItems = computed(() => [
   { to: `/p/${slug.value}`, label: 'Inicio', short: 'IN' },
@@ -109,7 +123,6 @@ const navItems = computed(() => [
 </script>
 
 <style scoped>
-/* ── Actions row ── */
 .gs-actions {
   display: flex;
   flex-wrap: wrap;
@@ -119,7 +132,6 @@ const navItems = computed(() => [
 }
 
 .gs-hint {
-  /* inherits .eyebrow from global styles */
   line-height: 1.4;
 }
 
@@ -131,7 +143,6 @@ const navItems = computed(() => [
   white-space: nowrap;
 }
 
-/* ── Summary bar ── */
 .summary-bar {
   display: flex;
   flex-wrap: wrap;
@@ -178,16 +189,11 @@ const navItems = computed(() => [
 }
 
 @media (max-width: 480px) {
-  .summary-divider {
-    display: none;
-  }
+  .summary-divider { display: none; }
 
-  .summary-bar {
-    gap: 16px 20px;
-  }
+  .summary-bar { gap: 16px 20px; }
 }
 
-/* ── Qualifiers preview (collapsible) ── */
 .qualifiers-preview {
   display: flex;
   flex-direction: column;
@@ -229,21 +235,15 @@ const navItems = computed(() => [
 }
 
 @media (min-width: 500px) {
-  .qualifier-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .qualifier-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 960px) {
-  .qualifier-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  .qualifier-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1200px) {
-  .qualifier-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  .qualifier-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 .qualifier-group-row {
@@ -299,7 +299,6 @@ const navItems = computed(() => [
   letter-spacing: 0.03em;
 }
 
-/* ── 12-group grid (mobile-first) ── */
 .groups-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -307,20 +306,14 @@ const navItems = computed(() => [
 }
 
 @media (min-width: 600px) {
-  .groups-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  .groups-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 960px) {
-  .groups-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  .groups-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1200px) {
-  .groups-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  .groups-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 </style>

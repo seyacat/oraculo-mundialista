@@ -11,12 +11,22 @@
     <div class="score-row">
       <label>
         <span>{{ match.home?.code }}</span>
-        <input :value="match.prediction?.homeScore" inputmode="numeric" aria-label="Marcador local" />
+        <input
+          :value="match.prediction?.homeScore"
+          inputmode="numeric"
+          aria-label="Marcador local"
+          @input="$emit('update:homeScore', $event.target.value)"
+        />
       </label>
       <strong>VS</strong>
       <label>
         <span>{{ match.away?.code }}</span>
-        <input :value="match.prediction?.awayScore" inputmode="numeric" aria-label="Marcador visitante" />
+        <input
+          :value="match.prediction?.awayScore"
+          inputmode="numeric"
+          aria-label="Marcador visitante"
+          @input="$emit('update:awayScore', $event.target.value)"
+        />
       </label>
     </div>
 
@@ -45,7 +55,7 @@ const props = defineProps({
   },
 })
 
-defineEmits(['save'])
+defineEmits(['save', 'update:homeScore', 'update:awayScore'])
 
 const buttonLabel = computed(() => props.savedLabel || (props.match.prediction?.saved ? 'Predicción guardada' : 'Guardar predicción'))
 </script>

@@ -4,6 +4,7 @@ dotenvConfig({ override: true })
 import express from 'express'
 import cors from 'cors'
 import { clerkMiddleware, getAuth } from '@clerk/express'
+import predictionsRouter from './routes/predictions.js'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -27,6 +28,8 @@ app.get('/api/me', (req, res) => {
   }
   res.json({ userId })
 })
+
+app.use('/api/predictions', predictionsRouter)
 
 // Express 5 requires an explicit 4-argument error handler
 // Without it, errors from clerkMiddleware propagate to Express's default 500 handler

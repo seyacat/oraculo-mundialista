@@ -1,0 +1,19 @@
+{
+  "mcp": {
+    "orchestrator": {
+      "type": "local",
+      "command": [
+        "node",
+        "--import",
+        "tsx/esm",
+        "/media/seyacat/34DB216E254FA38A/oraculo/claude-orchestator/src/mcp/orchestrator-mcp.ts"
+      ],
+      "enabled": true,
+      "environment": {
+        "ORCHESTRATOR_URL": "http://localhost:7771",
+        "PROJECT_ID": "OraculoMundialista"
+      }
+    }
+  },
+  "$schema": "https://opencode.ai/config.json"
+}
